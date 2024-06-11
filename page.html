@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>✨</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=" type="image/png">
+
+    <style>
+        .search-container {
+            text-align: center;
+            margin-top: 20vh; /* Adjust the value for vertical positioning */
+        }
+        #search-input {
+            text-align: center;
+            caret-color: transparent; /* Hides the cursor */
+            border-radius: 5px;       /* Apply rounded corners */
+            padding: 8px;             /* Add padding for space inside the input */
+            border: none;             /* Remove default border */
+            outline: none;            /* Removes the border when focused */
+        }
+
+        #search-input:focus {
+            border: 1px solid #999900; /* Add a border when focused, change color as desired */
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <form onsubmit="return redirectToPage()" autocomplete="off">
+            <input id="search-input" type="text" size="60"/>
+        </form>
+    </div>
+    <div>
+      <pre style="color:rgba(0,0,0,0);">
+&lt;C-i&gt;	beginningOfLine
+&lt;C-e&gt;	endOfLine
+&lt;C-u&gt;	deleteToBeginning
+&lt;C-o&gt;	deleteToEnd
+&lt;C-y&gt;	deleteWord
+&lt;C-p&gt;	deleteForwardWord
+unmapped deleteChar
+unmappe	deleteForwardChar
+&lt;C-h&gt;	backwardWord
+&lt;C-l&gt;	forwardWord
+&lt;C-f&gt;	forwardChar
+&lt;C-b&gt;	backwardChar
+&lt;C-j&gt;	forwardLine
+&lt;C-k&gt;	backwardLine
+unmapped selectAll
+unmapped editWithVim
+      </pre>
+    </div>
+    <script>
+        function isURL(str) {
+            try {
+                new URL(str);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+       function redirectToPage() {
+            var input = document.getElementById("search-input").value;
+
+            // Redirect to different pages based on the input
+            switch (input) {
+                case "l":
+                    window.location.href = "https://learning.oreilly.com";
+                    break;
+                case "i":
+                    window.location.href = "https://ilya-bystrov.github.io";
+                    break;
+                case "cs":
+                    window.location.href = "https://hltv.org/results?stars=1";
+                    break;
+                case "gt":
+                    window.location.href = "https://translate.google.com/?sl=auto&tl=en&op=translate";
+                    break;
+                case "yt":
+                    window.location.href = "https://translate.yandex.ru/editor";
+                    break;
+                case "spb":
+                    window.location.href = "https://www.rtr.spb.ru/Vesti_spb/vesti_24.asp";
+                    break;
+                case "spbsun":
+                    window.location.href = "https://www.rtr.spb.ru/vesti_spb/sobned.asp";
+                    break;
+                case "msg":
+                    window.location.href = "https://messages.google.com/web";
+                    break;
+                case "lc":
+                    window.location.href = "https://leetcode.com";
+                    break;
+                case "lci":
+                    window.location.href = "https://leetcode.com/discuss/interview-experience";
+                    break;
+                case "parkeren":
+                    window.location.href = "https://www.prettigparkeren.nl";
+                    break;
+                case "fine":
+                    window.location.href = "https://www.cjib.nl";
+                    break;
+                case "cins":
+                    window.location.href = "https://www.mijnverzekeringsportaal.nl";
+                    break;
+                default:
+                    if (input.startsWith("i ")) { 
+                        input = input.substring(2);
+                        window.location.href = "https://ilya-bystrov.github.io/search.html?q=" + input;
+                        break;
+                    } else if (input.startsWith("u ")) { 
+                        input = input.substring(2);
+                        if(isURL(input)) {
+                            window.location.href = input;
+                            break;
+                        } else {
+                            inputWithHttps  = "https://" + input;
+                            if(isURL(inputWithHttps)) { 
+                                window.location.href = inputWithHttps;
+                                break;
+                            }
+                        }
+                        window.location.href = "https://duckduckgo.com/?q=" + input;
+                        break;
+                    } else if (input.startsWith("yt ")) { 
+                        input = input.substring(3);
+                        window.location.href = "https://www.youtube.com/results?search_query=" + input;
+                        break;
+                    } else if (input.startsWith("1 ")) { 
+                        input = input.substring(2);
+
+                        window.location.href = "https://www.google.com/search?btnI=1&q=" + input;
+                        //window.location.href = "https://duckduckgo.com/?q=%5C" + input;
+                        //window.location.href = "https://duckduckgo.com/?q=!ducky " + input;
+                        break;
+                    } else {
+                        // Redirect to a default page for other inputs
+                        // https://www.google.com/search?q=
+                        window.location.href = "https://duckduckgo.com/?q=" + input;
+                        break;
+                    }
+            }
+
+            return false; // Prevent form submission
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("search-input").focus();
+        });
+    </script>
+</body>
+</html>
+
