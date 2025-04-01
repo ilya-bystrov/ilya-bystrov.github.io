@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Agile Manifesto: Pitfalls in Terminology When Referring to the Manifesto</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Refcard: Install, Remove, Purge commands" href="../../../linux/maintenance%3D.html" />
+    <link rel="prev" title="Kafka: Key Points" href="../../../kafka/kafka-key-points%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2022-06-06 Mon
+Last modified:  2022-07-11 Mon
+</pre><section id="agile-manifesto-pitfalls-in-terminology-when-referring-to-the-manifesto">
+<h1>Agile Manifesto: Pitfalls in Terminology When Referring to the Manifesto<a class="headerlink" href="#agile-manifesto-pitfalls-in-terminology-when-referring-to-the-manifesto" title="Link to this heading">¶</a></h1>
+<p>Well-known Agile Manifesto consists of <a class="reference external" href="https://agilemanifesto.org">4 statements</a>
+and <a class="reference external" href="https://agilemanifesto.org/principles.html">12 principles behind the manifesto</a>.</p>
+<p>Clear understanding of terminology is essential in effective communication.
+From my point of view, there are common <em>pitfalls in terminology</em> when referring to the manifesto:</p>
+<ul class="simple">
+<li><p>There are <em>no values</em> in the manifesto.</p>
+<ul>
+<li><p>The manifesto declares that in each of the 4 statements <em>items</em> on the left <em>are valued</em> more than items
+on the right, that's it.</p></li>
+</ul>
+</li>
+<li><p>Principles are <em>not based</em> on the manifesto, it's the opposite.</p>
+<ul>
+<li><p>The manifesto clearly states that <em>principles behind the manifesto</em>.</p>
+<ul>
+<li><p>It means that <strong>inductive reasonig</strong> was used: 12 principles were generalized in 4 statements.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>As a result, manifesto statements are aligned with principles.</p>
+<section id="my-compound-view-of-statements-and-principles">
+<h2>My compound view of statements and principles<a class="headerlink" href="#my-compound-view-of-statements-and-principles" title="Link to this heading">¶</a></h2>
+<p>Keep in mind that statements arose from principles, not the other way round.</p>
+<ul class="simple">
+<li><p><strong>Individuals and interactions</strong> over <em>processes and tools</em></p>
+<ul>
+<li><p>(5) Build projects around <strong>motivated individuals</strong>. Give them the environment and support they need, and
+trust them to get the job done.</p></li>
+<li><p>(6) The most efficient and effective method of conveying information to and within a development team is
+<strong>face-to-face conversation</strong>.</p></li>
+<li><p>(11) The best architectures, requirements, and designs emerge from <strong>self-organizing teams</strong>.</p>
+<ul>
+<li><p>(12) At regular intervals, the <strong>team reflects</strong> on how to become more effective, then tunes and
+adjusts its behavior accordingly.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p><strong>Working software</strong> over <em>comprehensive documentation</em></p>
+<ul>
+<li><p>(1) Our highest priority is to satisfy the customer through early and continuous <strong>delivery of valuable
+software</strong>.</p>
+<ul>
+<li><p>(3) <strong>Deliver working software frequently</strong>, from a couple of weeks to a couple of months, with a
+preference to the shorter timescale.</p></li>
+</ul>
+</li>
+<li><p>(7) Working software is <strong>the primary measure of progress</strong>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p><strong>Customer collaboration</strong> over <em>contract negotiation</em></p>
+<ul>
+<li><p>(4) Business people and developers must <strong>work together daily</strong> throughout the project.</p></li>
+</ul>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p><strong>Responding to change</strong> over <em>following a plan</em></p>
+<ul>
+<li><p>(2) <strong>Welcome changing requirements</strong>, even late in development. Agile processes harness change for the
+customer's competitive advantage.</p></li>
+</ul>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p>Not directly associated</p>
+<ul>
+<li><p>(8) Agile processes promote sustainable development.  The sponsors, developers, and users should be able
+to maintain a constant pace indefinitely.</p></li>
+<li><p>(9) Continuous attention to technical excellence and good design enhances agility.</p></li>
+<li><p>(10) Simplicity -- the art of maximizing the amount of work not done -- is essential.</p></li>
+</ul>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
