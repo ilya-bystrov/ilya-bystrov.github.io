@@ -1,0 +1,64 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2023-02-28 Tue
+   Last modified:  2023-02-28 Tue
+   </pre>
+
+
+Installation: Python 3.6 on Ubuntu 22.04
+========================================
+
+.. warning::
+
+  Python 3.6 reached end-of-life at 2021-12-23
+
+Final release for 3.6 series [#]_
+
+.. code:: bash
+
+  $ wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz
+  $ tar -xf Python-3.6.15.tgz
+  $ cd Python-3.6.15
+  $ vim Modules/Setup.dist
+
+``Modules/Setup.dist`` modification [#]_
+
+.. code-block:: none
+
+  < #SSL=/usr/local/ssl
+  < #_ssl _ssl.c \
+  < #     -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
+  < #     -L$(SSL)/lib -lssl -lcrypto
+  ---
+  > SSL=/etc/ssl
+  > _ssl _ssl.c \
+  >       -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
+  >       -L$(SSL)/lib -lssl -lcrypto
+
+
+.. code:: bash
+
+  $ sudo apt install libssl-dev
+  $ ./configure --enable-optimizations --prefix=$HOME/opt/py36
+  $ make altinstall
+  $ sudo apt purge libssl-dev
+
+.. warning::
+
+  Segmentation fault can occur while building/running. Root cause wasn't investigated.
+
+In my case ``pip3.6 -help`` always fails, but ``python3.6 -m pip -help`` works.
+
+pip reinstallation (can be useful).
+
+.. code:: bash
+
+  $ python3.6 -m pip uninstall pip
+  $ python3.6 -m ensurepip
+
+
+.. rubric:: References
+
+.. [#] https://www.python.org/downloads/release/python-3615
+.. [#] https://stackoverflow.com/a/74599370/3564590
