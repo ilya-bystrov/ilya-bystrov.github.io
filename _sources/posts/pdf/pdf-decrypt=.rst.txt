@@ -1,0 +1,16 @@
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2025-04-01 Tue
+   Last modified:  2025-04-01 Tue
+   </pre>
+
+########################
+Decrypting PDF with QPDF
+########################
+
+
+.. code-block:: shell
+
+  qpdf --decrypt --password-file <file> <input-pdf> <output-pdf>
+

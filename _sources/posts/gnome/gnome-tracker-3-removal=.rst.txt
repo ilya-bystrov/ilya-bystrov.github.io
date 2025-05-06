@@ -1,0 +1,149 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2024-09-10 Tue
+   Last modified:  2025-05-07 Wed
+   </pre>
+
+
+########################
+Gnome Tracker 3: Removal
+########################
+
+Idea
+====
+
+It's not possible to remove or purge "tracker" packages because Gnome is dependent on them.
+However, the "tracker" packages can be easily replaced by fake empty packages.
+
+Tracker Overview 
+================
+
+From https://tracker.gnome.org/overview/
+
+  It’s not designed to be used directly by desktop users, but it provides a commandline tool named tracker3 for the adventurous.
+
+  ...
+
+  Tracker allows your application to instantly perform full-text searches across all documents. This feature is used by
+  the ‘search’ bar in GNOME Files, for example.
+
+  ...
+
+  Tracker 3 is divided into two subprojects:
+
+  * Tracker SPARQL, a lightweight database library built around SQLite.
+
+  * Tracker Miners, a set of daemons which crawl the filesystem and extract metadata from many types of file to provide a system-wide search service.
+
+  ...
+
+  Related projects
+
+  * Xapian provides similar functionality to Tracker Miner FS. It focuses more on scalability and less on having a
+    lightweight footprint. Unlike Tracker, it doesn’t support SPARQL or provide a Linked Data endpoint.
+
+  * Baloo is a metadata and search framework by KDE, implemented using Xapian.
+
+  * Recoll is a cross-platform desktop search application powered by Xapian.
+
+  * Apache Lucene + Solr is a search engine which targets very large-scale workloads. It has a much heavier footprint compared to Tracker.
+
+  * ripgrep-all is a commandline tool that can search for text within many types of file, and caches extracted data between runs.
+
+  * See the Wikipedia article on Desktop search for more information.
+
+Tracker Packages on Debian 12
+=============================
+
+The packages were discovered by running the command ``apt search 'metadata database, indexer and search tool'`` and
+through the autocompete of ``apt show tracker<TAB>``.
+
+List of packages:
+
+
+* libtracker-doc
+
+* libtracker-sparql-3.0-0
+
+* libtracker-sparql-3.0-dev
+
+* tracker
+
+* tracker-extract
+
+* tracker-miner-fs
+
+* tracker-test-utils
+
+4 of them were installed.
+
+
+* libtracker-sparql-3.0-0
+
+* tracker
+
+* tracker-extract
+
+* tracker-miner-fs
+
+3 of them need to be replaced.
+
+
+* tracker
+
+* tracker-extract
+
+* tracker-miner-fs
+
+Packages replacement
+====================
+
+The procedure should be repeated for all 3 packages.
+
+.. code:: bash
+
+  $ dpkg -L tracker-miner-fs > tracker-miner-fs-files
+  $ apt show tracker-miner-fs > tracker-miner-fs
+  $ equivs-build tracker-miner-fs
+  $ sudo dpkg -i tracker-miner-fs_3.4.3-1_all.deb
+  $ # check the deletion of files in tracker-miner-fs-files
+  $ # delete manually if needed
+  $ # commands to check: 1. tac tracker-miner-fs-files | xargs file {}
+  $ #                    2. tac tracker-miner-fs-files | xargs file {} | grep -i 'text\|data'
+
+I only had to manually delete one file in my case: ``/etc/xdg/autostart/tracker-miner-fs-3.desktop``.
+
+Put newly installed packages on hold.
+
+.. code:: bash
+
+  $ sudo apt-mark hold tracker tracker-extract tracker-miner-fs
+
+Note: libtracker-sparql-3.0-0
+-----------------------------
+
+Replacement of ``libtracker-sparql-3.0-0`` breaks ``nautilus``:
+
+.. code:: bash
+
+  $ nautilus 
+  nautilus: error while loading shared libraries: libtracker-sparql-3.0.so.0: cannot open shared object file: No such file or directory
+
+Remove dirs
+===========
+
+
+* ``~/.local/share/tracker``
+
+* ``~/.cache/tracker``
+
+* ``~/.cache/tracker3``
+
+
+Conclusion
+==========
+
+While it may not be possible to completely remove or purge the "tracker" packages due to Gnome's dependency on them,
+they can be replaced with fake empty packages to effectively disable their functionality.
+
