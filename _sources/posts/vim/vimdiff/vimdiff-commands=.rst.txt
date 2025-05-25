@@ -1,0 +1,99 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-11-16 Wed 
+   Last modified:  2023-07-15 Sat
+  </pre>
+
+
+#################
+Vimdiff: Commands
+#################
+
+Starting diff mode [#]_
+=======================
+
+.. code::
+
+  vimdiff file1 file2 [file3 [file4]]
+  vim -d file1 file2 [file3 [file4]]
+
+If you prefer horizontal splits add the `-o` argument: 
+
+.. code::
+
+  vimdiff -o file1 file2 [file3 [file4]]
+
+
+Viewing diffs [#]_
+==================
+
+.. table::
+   :align: left
+   :width: 100%
+
+   +------------------+-----------------------------------------+
+   | :dif[fupdate][!] | Update the diff highlighting and folds. |
+   +------------------+-----------------------------------------+
+  
+
+Jumping to diffs [#]_
+=====================
+
+.. table::
+   :align: left
+   :width: 100%
+
+   +----+--------------------------------------------------+
+   | [c | Jump backwards to the previous start of a change |
+   |    | When a count is used, do it that many times      |
+   +----+--------------------------------------------------+
+   | ]c | Jump forwards to the next start of a change      |
+   |    | When a count is used, do it that many times      |
+   +----+--------------------------------------------------+
+
+Diff copying [#]_
+=================
+
+.. table::
+   :align: left
+   :width: 100%
+
+   +----------+-----------------------------------------------------------------------------------+
+   | :diffget | Modify the current buffer to undo difference with another buffer                  |
+   | do       | The "o" stands for "obtain" ("dg" can't be used, it could be the start of "dgg"!) |
+   +----------+-----------------------------------------------------------------------------------+
+   | :diffput | Modify another buffer to undo difference with the current buffer                  |
+   | dp       |                                                                                   |
+   +----------+-----------------------------------------------------------------------------------+
+
+Opening and closing folds [#]_
+==============================
+
+.. table::
+   :align: left
+   :width: 100%
+
+   +----+----------------------------------+
+   | zo |  Open one fold under the cursor  |
+   +----+----------------------------------+
+   | zc |  Close one fold under the cursor |
+   +----+----------------------------------+
+   | zm |  Fold more                       |
+   +----+----------------------------------+
+   | zM | Close all folds                  |
+   +----+----------------------------------+
+   | zr |  Reduce folding                  |
+   +----+----------------------------------+
+   | zR | Open all folds                   |
+   +----+----------------------------------+
+
+.. rubric:: References
+
+.. [#] https://vimhelp.org/diff.txt.html#start-vimdiff
+.. [#] https://vimhelp.org/diff.txt.html#view-diffs
+.. [#] https://vimhelp.org/diff.txt.html#jumpto-diffs
+.. [#] https://vimhelp.org/diff.txt.html#copy-diffs
+.. [#] https://vimhelp.org/fold.txt.html#fold-commands
+.. [#] :stackoverflow:`StackOverflow: Merge changes using vimdiff <27832630>`
+
