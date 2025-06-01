@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ubuntu: Encrypted installation with multiple drives</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Vim: File Recovery and Dealing with Swap Files" href="../../vim/vim-file-recovery-and-deailng-with-swap-files%3D.html" />
+    <link rel="prev" title="How To Create Subversion Server with &#34;svn+ssh&#34; Access Method" href="../../svn/svn-server-with-ssh-access%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2019-04-20 Sat
+Last modified:  2022-02-28 Mon
+</pre><section id="ubuntu-encrypted-installation-with-multiple-drives">
+<h1>Ubuntu: Encrypted installation with multiple drives<a class="headerlink" href="#ubuntu-encrypted-installation-with-multiple-drives" title="Link to this heading">¶</a></h1>
+<p>I've got EasyNote-LV11HC with 2 SATA slots with 2 drives:</p>
+<ul class="simple">
+<li><p>750G (root, home, files)</p></li>
+<li><p>500G (files)</p></li>
+</ul>
+<p>I bought 2TB drive (2TB - 2.0 TB ATA ST2000LX001-1RG1) and want to use the
+following drives:</p>
+<ul class="simple">
+<li><p>750G (root, home)</p></li>
+<li><p>2T (files)</p></li>
+</ul>
+<p>with encryption.</p>
+<p>Also I'd like to save some data from drives.</p>
+<section id="important-notes">
+<h2>Important notes<a class="headerlink" href="#important-notes" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>I use legacy BIOS mode instead of UEFI mode.</p></li>
+<li><p>Make sure you have a copy of important data before installation.</p></li>
+</ul>
+</section>
+<section id="how-it-should-look">
+<h2>How it should look<a class="headerlink" href="#how-it-should-look" title="Link to this heading">¶</a></h2>
+<div class="diagram highlight-none notranslate"><div class="highlight"><pre><span></span>                        .------..------.            .--------------.    ^                     ^
+                        | root || swap |            | files        |    |  Logical volumes    |
+                        &#39;------&#39;&#39;------&#39;            &#39;--------------&#39;    v                     |
+                        .--------------.            .--------------.    ^                     |
+                        | ubuntu-vg    |            | files-vg     |    |  Volume groups      |  LVM
+                        &#39;--------------&#39;            &#39;--------------&#39;    v                     |
+        ^               .--------------.            .--------------.    ^                     |
+  LUKS  |               | LUKS         |            | LUKS         |    |  Physical volumes   |
+        |               | container    |            | container    |    |                     |
+        v               &#39;--------------&#39;            &#39;--------------&#39;    v                     v
+        ^   .-----------.--------------..-----------.--------------.
+        |   |           | logical      ||           | logical      |
+        |   |           | partition    ||           | partition    |
+   MBR  |   |           &#39;--------------&#39;|           &#39;--------------&#39;
+        |   | primary   | extended     || primary   | extended     |
+        |   | partition | partition    || partition | partition    |
+        v   &#39;-----------&#39;--------------&#39;&#39;-----------&#39;--------------&#39;
+        ^   .--------------------------..--------------------------.
+Drives  |   | 750G drive               || 2T drive                 |
+        v   &#39;--------------------------&#39;&#39;--------------------------&#39;
+</pre></div>
+</div>
+<p>Abbreviations for further usage:</p>
+<ul class="simple">
+<li><p>PV - Physical Volume</p></li>
+<li><p>VG - Volume Group</p></li>
+<li><p>LV - Logical Volume</p></li>
+</ul>
+</section>
+<section id="installation-and-configuration">
+<h2>Installation and configuration<a class="headerlink" href="#installation-and-configuration" title="Link to this heading">¶</a></h2>
+<section id="install-ubuntu">
+<h3>Install Ubuntu<a class="headerlink" href="#install-ubuntu" title="Link to this heading">¶</a></h3>
+<p>Power off laptop, attach only 2TB drive.</p>
+<p>Install Ubuntu with &quot;Encrypt&quot; and &quot;Use LVM&quot; options.</p>
+<p>Output log:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LVM VG ubuntu-vg, LV root as ext4
+LVM VG ubuntu-vg, LV swap_1 as swap
+partition #1 of SCSI4(0,0,0)(sdb) as ESP
+</pre></div>
+</div>
+<section id="usb-boot-error-gfxboot-c32-not-a-valid-com32r-image">
+<h4>USB boot error (gfxboot.c32:not a valid COM32R image)<a class="headerlink" href="#usb-boot-error-gfxboot-c32-not-a-valid-com32r-image" title="Link to this heading">¶</a></h4>
+<p>Ubuntu can fail to boot with above error. Here is the workaround ( <a class="reference external" href="https://askubuntu.com/questions/486602">Ask Ubuntu</a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Press Tab - Type &#39;live&#39; or &#39;live install&#39; - Press Enter
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-ubuntu-after-installation">
+<h3>Run Ubuntu after installation<a class="headerlink" href="#run-ubuntu-after-installation" title="Link to this heading">¶</a></h3>
+<p>Check that Ubuntu boots successfully.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">-h</span></code> shows that less than 6G occupied on &quot;root&quot; LV.</p>
+</section>
+<section id="run-ubuntu-live-from-cd-usb-with-additional-drive">
+<h3>Run Ubuntu Live from CD/USB with additional drive<a class="headerlink" href="#run-ubuntu-live-from-cd-usb-with-additional-drive" title="Link to this heading">¶</a></h3>
+<p>Power off laptop and attach 750G drive.</p>
+<p>Run Ubuntu Live.</p>
+<p>Check drives using <code class="docutils literal notranslate"><span class="pre">fdisk</span> <span class="pre">-l</span></code></p>
+<p>Here is the output for 2T drive</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Disk /dev/sdb: 1.8 TiB, 2000398934016 bytes, 3907029168 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: dos
+Disk identifier: 0x9fdd7987
+
+Device     Boot   Start        End    Sectors  Size Id Type
+/dev/sdb1  *       2048    1499135    1497088  731M 83 Linux
+/dev/sdb2       1501182 3907028991 3905527810  1.8T  5 Extended
+/dev/sdb5       1501184 3907028991 3905527808  1.8T 83 Linux
+
+Partition 2 does not start on physical sector boundary.
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/dev/sdb5</span></code> is encrypted partition. Open it.</p>
+<p>Need to specify LUKS container name, I use first 4 letters of UUID as a suffix.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ls -al /dev/disk/by-uuid/ | grep sdb5
+</pre></div>
+</div>
+<p>Container name: luks-ddb2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># cryptsetup -v luksOpen /dev/sdb5 luks-ddb2
+Enter passphrase for /dev/sdb5: Key slot 0 unlocked.
+Command successful.
+</pre></div>
+</div>
+<p>LVM configuration can be checked using following 3 commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pvs</span></code> - info about PVs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgs</span></code> - info about VGs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lvs</span></code> - info about LVs</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># pvs
+  PV                    VG        Fmt  Attr PSize  PFree
+  /dev/mapper/luks-ddb2 ubuntu-vg lvm2 a--  &lt;1.82t    0
+# vgs
+  VG        #PV #LV #SN Attr   VSize  VFree
+  ubuntu-vg   1   2   0 wz--n- &lt;1.82t    0
+# lvs
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root   ubuntu-vg -wi-a-----  &lt;1.82t
+  swap_1 ubuntu-vg -wi-a----- 976.00m
+</pre></div>
+</div>
+</section>
+<section id="shrink-root-logical-volume">
+<h3>Shrink root logical volume<a class="headerlink" href="#shrink-root-logical-volume" title="Link to this heading">¶</a></h3>
+<p>Check space usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># mount /dev/mapper/ubuntu--vg-root /mnt/
+# df -h | grep /mnt
+/dev/mapper/ubuntu--vg-root  1.8T  5.4G  1.7T   1% /mnt
+# umount /mnt
+</pre></div>
+</div>
+<p>I prefer use vi mode in bash and vim as a default editor (optional)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># set -o vi
+# export EDITOR=vim
+</pre></div>
+</div>
+<p>Shrink root logical volume from 1.8T to 12G.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># e2fsck -f /dev/ubuntu-vg/root
+e2fsck 1.44.1 (24-Mar-2018)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/ubuntu-vg/root: 178713/121987072 files (0.2% non-contiguous), 9315370/487940096 blocks
+
+# resize2fs -p /dev/ubuntu-vg/root 12G
+resize2fs 1.44.1 (24-Mar-2018)
+Resizing the filesystem on /dev/ubuntu-vg/root to 3145728 (4k) blocks.
+Begin pass 2 (max = 1268084)
+Relocating blocks             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 3 (max = 14891)
+Scanning inode table          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 4 (max = 24875)
+Updating inode references     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/ubuntu-vg/root is now 3145728 (4k) blocks long.
+
+# lvresize -L 12G /dev/ubuntu-vg/root
+  WARNING: Reducing active logical volume to 12.00 GiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce ubuntu-vg/root? [y/n]: y
+  Size of logical volume ubuntu-vg/root changed from &lt;1.82 TiB (476504 extents) to 12.00 GiB (3072 extents).
+  Logical volume ubuntu-vg/root successfully resized.
+
+# e2fsck -f /dev/ubuntu-vg/root
+e2fsck 1.44.1 (24-Mar-2018)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/ubuntu-vg/root: 178713/786432 files (0.2% non-contiguous), 1697169/3145728 blocks
+</pre></div>
+</div>
+</section>
+<section id="create-new-lv">
+<h3>Create new LV<a class="headerlink" href="#create-new-lv" title="Link to this heading">¶</a></h3>
+<p>Create new &quot;files&quot; LV.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># lvs
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root   ubuntu-vg -wi-a-----  12.00g
+  swap_1 ubuntu-vg -wi-a----- 976.00m
+
+# lvcreate -l 100%FREE -n files ubuntu-vg
+  Logical volume &quot;files&quot; created.
+
+# mkfs.ext4 /dev/mapper/ubuntu--vg-files
+
+# lvs
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  files  ubuntu-vg -wi-a-----  &lt;1.81t
+  root   ubuntu-vg -wi-a-----  12.00g
+  swap_1 ubuntu-vg -wi-a----- 976.00m
+</pre></div>
+</div>
+</section>
+<section id="rename-default-luks-container">
+<h3>Rename default LUKS container<a class="headerlink" href="#rename-default-luks-container" title="Link to this heading">¶</a></h3>
+<p>Ubuntu provides default name &quot;sdx_crypt&quot; for LUKS container.
+It can be found in '/etc/crypttab'.</p>
+<p>Because there will be 2 encrypted volumes I prefer to rename it from
+<code class="docutils literal notranslate"><span class="pre">sda5_crypt</span></code> to <code class="docutils literal notranslate"><span class="pre">luks-ddb2</span></code> (ddb2 - is first 4 digits of UUID).
+Note that this name used by grub configuration, so grub config should be also updated as shown below.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># mount /dev/mapper/ubuntu--vg-root /mnt/
+# mount /dev/sdb1 /mnt/boot/
+# for i in /dev/ /dev/pts /proc /sys /run; do mount -B $i /mnt$i; done
+# chroot /mnt
+# &lt;edit /etc/crypttab - rename sda5_crypt to luks-ddb2&gt;
+# cat /etc/crypttab
+luks-ddb2 UUID=ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250 none luks,discard
+# dmsetup rename sda5_crypt luks-ddb2
+device-mapper: rename ioctl on sda5_crypt  failed: Device or resource busy
+Command failed
+# &lt;edit /etc/fstab  - add &quot;files&quot; LV&gt;
+# cat /etc/fstab | grep files
+/dev/mapper/ubuntu--vg-files /home/files ext4 defaults 0 2
+# &lt;edit /etc/default/grub - optional - changing value of GRUB_CMDLINE_LINUX_DEFAULT from &quot;quite splash&quot; to &quot;&quot;
+# update-initramfs -u -k all
+update-initramfs: Generating /boot/initrd.img-4.15.0-43-generic
+update-initramfs: Generating /boot/initrd.img-4.15.0-29-generic
+# shutdown -r now
+</pre></div>
+</div>
+</section>
+<section id="copy-data-to-2t-drive">
+<h3>Copy data to 2T drive<a class="headerlink" href="#copy-data-to-2t-drive" title="Link to this heading">¶</a></h3>
+<p>Attach any drive (procedure below can be repeated for multiple drives).
+After reboot following prompt for passphrase should appear:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Please unlock disk luks-ddb2
+</pre></div>
+</div>
+<p>&quot;ubuntu-vg&quot; VG has following structure:</p>
+<ul class="simple">
+<li><p>root     12.00g</p></li>
+<li><p>swap_1  976.00m</p></li>
+<li><p>files    &lt;1.81t</p></li>
+</ul>
+<p>Copy data from 750G drive to &quot;files&quot; LV.
+Power off.</p>
+<p>Now all needed data is on 2T drive,
+750G drive can be used for &quot;root&quot; LV and &quot;swap&quot; LV.</p>
+</section>
+<section id="create-partition-table-on-750g-drive">
+<h3>Create partition table on 750G drive<a class="headerlink" href="#create-partition-table-on-750g-drive" title="Link to this heading">¶</a></h3>
+<p>Attach (or make sure that it is attached) 750G drive.
+Run Ubuntu Live.
+On 750G drive create new DOS partition table using <code class="docutils literal notranslate"><span class="pre">fdisk</span></code>.</p>
+<p>Output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># fdisk -l /dev/sda
+Disk /dev/sda: 698.7 GiB, 750156374016 bytes, 1465149168 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: dos
+Disk identifier: 0x2c338ab6
+
+Device     Boot   Start        End    Sectors   Size Id Type
+/dev/sda1          2048    1497088    1495041   730M 83 Linux
+/dev/sda2       1499136 1465149167 1463650032 697.9G  5 Extended
+/dev/sda5       1501184 1465149167 1463647984 697.9G 83 Linux
+</pre></div>
+</div>
+</section>
+<section id="create-luks-container">
+<h3>Create LUKS container<a class="headerlink" href="#create-luks-container" title="Link to this heading">¶</a></h3>
+<p>Create LUKS container on /dev/sda5 with key file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># echo &#39;&lt;key-file-content&gt;&#39; &gt; &lt;key.file&gt;
+# cryptsetup -v luksFormat /dev/sda5 &lt;key.file&gt;
+WARNING!
+========
+This will overwrite data on /dev/sda5 irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Command successful.
+</pre></div>
+</div>
+<section id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>This &lt;key.file&gt; should be put later on &quot;root&quot; LV.</p></li>
+<li><p>You can add multiple options for opening container including passphrase.</p></li>
+</ul>
+</section>
+</section>
+<section id="add-luks-container-to-pvs">
+<h3>Add LUKS container to PVs<a class="headerlink" href="#add-luks-container-to-pvs" title="Link to this heading">¶</a></h3>
+<p>Open LUKS container on <code class="docutils literal notranslate"><span class="pre">/dev/sdb5</span></code> (created during Ubuntu installation):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># blkid -olist | sed -n &#39;1p;/.*sdb5.*/p&#39;
+device     fs_type label    mount point    UUID
+/dev/sdb5  crypto_LUKS      (not mounted)  ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250
+
+# cryptsetup -v luksOpen /dev/sdb5 luks-ddb2
+Enter passphrase for /dev/sdb5:
+Key slot 0 unlocked.
+Command successful.
+</pre></div>
+</div>
+<p>Open LUKS container on <code class="docutils literal notranslate"><span class="pre">/dev/sdb5</span></code> (recently created):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># blkid -olist | sed -n &#39;1p;/.*sda5.*/p&#39;
+device     fs_type label    mount point    UUID
+/dev/sda5  crypto_LUKS      (not mounted)  d3cfea2b-1937-4601-8cea-ad332c692931
+
+# cryptsetup -v luksOpen /dev/sda5 luks-d3cf --key-file key.file
+Key slot 0 unlocked.
+Command successful.
+</pre></div>
+</div>
+<p>Put &lt;key.file&gt; somewhere on &quot;root&quot; LV for further usage (Command doesn't shown).</p>
+<p>Add LUKS container to PVs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># pvs
+  PV                    VG        Fmt  Attr PSize  PFree
+  /dev/mapper/luks-dbb2 ubuntu-vg lvm2 a--  &lt;1.82t    0
+
+# pvcreate /dev/mapper/luks-d3cf
+  Physical volume &quot;/dev/mapper/luks-d3cf&quot; successfully created.
+
+# pvs
+  PV                    VG        Fmt  Attr PSize    PFree
+  /dev/mapper/luks-d3cf           lvm2 ---  &lt;697.92g &lt;697.92g
+  /dev/mapper/luks-ddb2 ubuntu-vg lvm2 a--    &lt;1.82t       0
+</pre></div>
+</div>
+</section>
+<section id="extend-ubuntu-vg-volume-group">
+<h3>Extend ubuntu-vg volume group<a class="headerlink" href="#extend-ubuntu-vg-volume-group" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># vgs
+  VG        #PV #LV #SN Attr   VSize  VFree
+  ubuntu-vg   1   3   0 wz--n- &lt;1.82t    0
+
+# vgextend -v ubuntu-vg /dev/mapper/luks-d3cf
+    Wiping internal VG cache
+    Wiping cache of LVM-capable devices
+    Wiping signatures on new PV /dev/mapper/luks-d3cf.
+    Archiving volume group &quot;ubuntu-vg&quot; metadata (seqno 7).
+    Adding physical volume &#39;/dev/mapper/luks-d3cf&#39; to volume group &#39;ubuntu-vg&#39;
+    Volume group &quot;ubuntu-vg&quot; will be extended by 1 new physical volumes
+    Creating volume group backup &quot;/etc/lvm/backup/ubuntu-vg&quot; (seqno 8).
+  Volume group &quot;ubuntu-vg&quot; successfully extended
+
+# vgs
+  VG        #PV #LV #SN Attr   VSize VFree
+  ubuntu-vg   2   3   0 wz--n- 2.50t &lt;697.92g
+</pre></div>
+</div>
+</section>
+<section id="move-root-and-swap-lvs-to-another-pv">
+<h3>Move &quot;root&quot; and &quot;swap&quot; LVs to another PV<a class="headerlink" href="#move-root-and-swap-lvs-to-another-pv" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># lvs -o+devices
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert Devices
+  files  ubuntu-vg -wi-a-----  &lt;1.81t                                                     /dev/mapper/luks-ddb2(3072)
+  root   ubuntu-vg -wi-a-----  12.00g                                                     /dev/mapper/luks-ddb2(0)
+  swap_1 ubuntu-vg -wi-a----- 976.00m                                                     /dev/mapper/luks-ddb2(476504)
+
+# pvmove -v -n /dev/ubuntu-vg/root /dev/mapper/luks-ddb2 /dev/mapper/luks-d3cf
+# pvmove -v -n /dev/ubuntu-vg/swap_1 /dev/mapper/luks-ddb2 /dev/mapper/luks-d3cf
+
+# lvs -o+devices
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert Devices
+  files  ubuntu-vg -wi-a-----  &lt;1.81t                                                     /dev/mapper/luks-ddb2(3072)
+  root   ubuntu-vg -wi-a-----  12.00g                                                     /dev/mapper/luks-d3cf(0)
+  swap_1 ubuntu-vg -wi-a----- 976.00m                                                     /dev/mapper/luks-d3cf(3072)
+</pre></div>
+</div>
+</section>
+<section id="split-ubuntu-vg-vg-into-ubuntu-vg-vg-and-files-vg-vg">
+<h3>Split &quot;ubuntu-vg&quot; VG into &quot;ubuntu-vg&quot; VG and &quot;files-vg&quot; VG<a class="headerlink" href="#split-ubuntu-vg-vg-into-ubuntu-vg-vg-and-files-vg-vg" title="Link to this heading">¶</a></h3>
+<p>After this operation &quot;files-vg&quot; VG will be created.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># vgchange -v ubuntu-vg -a n
+# vgsplit -v ubuntu-vg files-vg /dev/mapper/luks-ddb2
+# vgchange -v ubuntu-vg -a y
+</pre></div>
+</div>
+<p>Now each PV have own VG:</p>
+<ul class="simple">
+<li><p>750G - ubuntu-vg</p></li>
+<li><p>2T - files-vg</p></li>
+</ul>
+<p>Using one VG per drive is safe: I can use drives independently.</p>
+</section>
+<section id="resize-root-lv">
+<h3>Resize &quot;root&quot; LV<a class="headerlink" href="#resize-root-lv" title="Link to this heading">¶</a></h3>
+<p>Resize &quot;root&quot; LV from 12G to all available space:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># e2fsck -f /dev/ubuntu-vg/root
+# lvresize -v -l 100%FREE /dev/ubuntu-vg/root
+# e2fsck -f /dev/ubuntu-vg/root
+# resize2fs /dev/ubuntu-vg/root
+# e2fsck -f /dev/ubuntu-vg/root
+</pre></div>
+</div>
+<p>LVM Report:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># pvs
+  PV                    VG        Fmt  Attr PSize    PFree
+  /dev/mapper/luks-d3cf ubuntu-vg lvm2 a--  &lt;697.92g 12.00g
+  /dev/mapper/luks-ddb2 files-vg  lvm2 a--    &lt;1.82t 12.95g
+# vgs
+  VG        #PV #LV #SN Attr   VSize    VFree
+  files-vg    1   1   0 wz--n-   &lt;1.82t 12.95g
+  ubuntu-vg   1   2   0 wz--n- &lt;697.92g 12.00g
+# lvs
+  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  files  files-vg  -wi-------  &lt;1.81t
+  root   ubuntu-vg -wi-a----- 684.96g
+  swap_1 ubuntu-vg -wi-a----- 976.00m
+</pre></div>
+</div>
+<p>Some space (12G + 12G) remains unallocated. I leaved it as is.</p>
+</section>
+<section id="configure-etc-crypttab-etc-fstab-install-grub-on-750g-drive">
+<h3>Configure <code class="docutils literal notranslate"><span class="pre">/etc/crypttab</span></code>, <code class="docutils literal notranslate"><span class="pre">/etc/fstab</span></code>, install GRUB on 750G drive<a class="headerlink" href="#configure-etc-crypttab-etc-fstab-install-grub-on-750g-drive" title="Link to this heading">¶</a></h3>
+<p>Update <code class="docutils literal notranslate"><span class="pre">/etc/crypttab</span></code> and <code class="docutils literal notranslate"><span class="pre">/etc/fstab</span></code> in the following way:</p>
+<ul class="simple">
+<li><p>add line for LUKS container on 750G drive in <code class="docutils literal notranslate"><span class="pre">/etc/crypttab</span></code>;
+&lt;key.file&gt; should be stored somewhere in &quot;root&quot; LV (like /root/&lt;key.file&gt;)</p></li>
+<li><p>change UUID for /boot (switch to  ~700M primary partition of 750G drive) in
+<code class="docutils literal notranslate"><span class="pre">/etc/fstab</span></code></p></li>
+<li><p>change <code class="docutils literal notranslate"><span class="pre">/dev/mapper/ubuntu--vg-files</span></code> to <code class="docutils literal notranslate"><span class="pre">/dev/mapper/files--vg-files</span> <span class="pre">in</span>
+<span class="pre">/etc/fstab</span></code></p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># cat /etc/crypttab
+luks-d3cf UUID=d3cfea2b-1937-4601-8cea-ad332c692931 none luks,discard
+luks-ddb2 UUID=ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250 &lt;key.file&gt; luks,discard
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># cat /etc/fstab
+
+/dev/mapper/ubuntu--vg-root /               ext4    errors=remount-ro 0       1
+UUID=c1917be1-958c-499e-bd40-3ce4ec25c03e /boot           ext4    defaults        0       2
+/dev/mapper/ubuntu--vg-swap_1 none            swap    sw              0       0
+/dev/mapper/files--vg-files /home/files ext4 defaults 0 2
+</pre></div>
+</div>
+</section>
+<section id="install-grub-on-750g-drive">
+<h3>Install GRUB on 750G drive<a class="headerlink" href="#install-grub-on-750g-drive" title="Link to this heading">¶</a></h3>
+<p>I faced with some difficulties during GRUB installation and I don't know what
+was the final solution. Probably, purging grub related packages and
+reinstalling solved problem. So, some links in case of issues:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://help.ubuntu.com/community/Grub2/Installing#via_the_LiveCD_terminal">Grub2/Installing - Community Help Wiki</a></p></li>
+<li><p><a class="reference external" href="https://help.ubuntu.com/community/Boot-Repair">Boot-Repair - Community Help Wiki</a></p></li>
+<li><p><a class="reference external" href="https://linuxhint.com/grub_rescue_ubuntu_1804">How to Use GRUB Rescue on Ubuntu 18.04 LTS – Linux Hint</a></p></li>
+<li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/GRUB_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)">RUS - GRUB (Русский) - ArchWiki</a></p></li>
+<li><p><a class="reference external" href="https://help.ubuntu.ru/wiki/grub">RUS - GRUB - загрузчик системы | Русскоязычная документация по Ubuntu</a></p></li>
+</ul>
+</section>
+</section>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Link to this heading">¶</a></h2>
+<p>In order to install <code class="docutils literal notranslate"><span class="pre">sshpass</span></code> on Ubuntu Live I had to add</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deb http://archive.ubuntu.com/ubuntu/ bionic universe
+</pre></div>
+</div>
+<p>into <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list</span></code> .</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-use-lvm-to-manage-storage-devices-on-ubuntu-18-04">How To Use LVM To Manage Storage Devices on Ubuntu 18.04 | DigitalOcean</a></p></li>
+<li><p><a class="reference external" href="https://unix.stackexchange.com/questions/81011">How to change the name an encrypted full-system partition - Unix &amp; Linux Stack Exchange</a></p></li>
+<li><p><a class="reference external" href="https://askubuntu.com/questions/1034079">How do I install 18.04 using full disk encryption with two drives (SSD/HDD) - Ask Ubuntu</a></p></li>
+<li><p><a class="reference external" href="https://superuser.com/questions/217307">Is there a simple way to move/copy a logical volume from one volume group to another - Super User</a></p></li>
+<li><p><a class="reference external" href="https://help.ubuntu.com/community/ManualFullSystemEncryption">ManualFullSystemEncryption - Community Wiki</a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

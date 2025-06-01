@@ -1,0 +1,128 @@
+
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2021-07-24 Sat
+   Last modified:  2022-04-06 Wed
+   </pre>
+
+Writing a Resume Key Points
+===========================
+
+LinkedIn learning have a nice course: `Writing a Resume with Stacey Gordon <https://www.linkedin.com/learning/writing-a-resume>`_.
+
+Here is my key points.
+
+
+* Experience section
+
+  + On the top (Education first if Early Career)
+
+  + Subsections
+
+    - Company name
+
+    - Location
+
+    - Job title 
+
+      * Most recent
+
+    - Dates of employment
+
+    - Duties and responsibilities
+
+      * At least 3
+
+      * 5 should be fine
+
+      * First 2 or 3 should contain the most important information
+
+        + Later bullets may not be read, at least no initially
+
+      * Check job description for bullet points
+
+        + Search using the company name and the job title
+
+        + Similar jobs
+
+  + Use numbers when you can
+
+  + Demonstrate stability, longevity, leadership qualities
+
+
+* Summary of Qualifications and Objectives should be `customized <https://www.linkedin.com/learning/writing-a-resume/use-your-objective-to-focus-the-reader>`_
+  for vacancies
+
+  + Summary of Qualifications = What makes you stand out?
+
+  + Professional Summary
+
+
+* Achievements
+
+  + Placement
+
+    - In the end or in the beginning for every work experience
+
+    - Or in Summary of Qualifications
+
+    - Or in own section Achievements
+
+  + Take into account relevance and scale before making decision 
+
+
+* Award
+
+  + Space, relevance, non-negative impression
+
+
+* Presentations and publications
+
+  + Number of views
+
+  + Value
+
+
+* Education at the bottom (because of work experience)
+
+  + No need to include graduation dates if out of the school for several years
+
+  + Specify education equivalent if needed (for instance, Master's degree in CS)
+
+
+* Membership and Affiliations
+
+  + Industry-based
+
+    - Search and join
+
+
+* Name and location
+
+  + Email address, phone number
+
+    - Voicemail should work
+
+      * Check it
+
+    - SMS
+
+
+* Review external links
+
+  + LinkedIn profile
+
+
+* Recruiter spend 6 seconds per resume
+
+
+* Technical Skills = Your technical skills
+
+.. 
+  comments
+  salary.com
+  glassdoor.com
+  US Bureau of Labor Statistics Occupation Outlook Handbook
+  https://www.linkedin.com/in/pkabirr/
+  https://www.linkedin.com/learning/finding-a-job/crafting-a-cover-letter?autoplay=true

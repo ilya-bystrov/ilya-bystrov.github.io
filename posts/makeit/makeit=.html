@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>mk: Bash-based Automation Tool</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Vi Mode in LibreOffice" href="../office/libreoffice-vi-mode%3D.html" />
+    <link rel="prev" title="Split a File But Keep Headers" href="../linux/utilities/split-a-file-but-keep-headers%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2021-09-12 Sun
+Last modified:  2023-01-12 Thu
+</pre><section id="mk-bash-based-automation-tool">
+<h1>mk: Bash-based Automation Tool<a class="headerlink" href="#mk-bash-based-automation-tool" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://github.com/ilya-bystrov/mk">mk repoistory</a></p>
+<ul class="simple">
+<li><p><em>2023-01-12 Thu</em></p>
+<ul>
+<li><p>Renamed from <code class="docutils literal notranslate"><span class="pre">makeit</span></code> to <code class="docutils literal notranslate"><span class="pre">mk</span></code></p></li>
+</ul>
+</li>
+</ul>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Bash as a language</p></li>
+<li><p>Shared context</p></li>
+<li><p>Target is defined as a bash function</p></li>
+<li><p>Targets can depends on others</p></li>
+<li><p>Multiple targets can be invoked</p></li>
+<li><p>Autocompletion support</p></li>
+</ul>
+</section>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading">¶</a></h2>
+<p>I've regularly found myself creating bash scripts with names like <code class="docutils literal notranslate"><span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">run</span></code>, <code class="docutils literal notranslate"><span class="pre">clear</span></code>.
+Typically, these scripts should share some variables and I'd had to duplicate them or use other techniques
+(like env variables, source common script). I wasn't satisfied with it.</p>
+<p>Also, I used <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>-s. Specifically, I liked the completion feature.  But <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> has its own
+features, that were not convenient for me (like specific Makefile syntax, separate execution of every line by
+default).</p>
+<p>For my purposes, I wanted to have a single file that contains bash scenarios with the ability to share common
+variables and functions, and with autocomplete feature in order to launch them easily.</p>
+</section>
+<section id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Link to this heading">¶</a></h2>
+<embed>
+<a href="https://asciinema.org/a/Nvx7QOvUyMnZc8MVfKk2xETnj" target="_blank"><img src="https://asciinema.org/a/Nvx7QOvUyMnZc8MVfKk2xETnj.svg" /></a>
+<embed></section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Enable autocompletion</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/ilya-bystrov/mk/master/completions/mk_completions<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bash_completion
+$<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/ilya-bystrov/mk/master/completions/mk_alias<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bash_completion
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Use template</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/ilya-bystrov/mk/master/mk
+$<span class="w"> </span>chmod<span class="w"> </span>u+x<span class="w"> </span>mk
+$<span class="w"> </span>mk<span class="w"> </span>&lt;Tab&gt;
+bye<span class="w"> </span>hello
+$<span class="w"> </span>mk<span class="w"> </span>hello
+Hello,<span class="w"> </span>World!
+$<span class="w"> </span>mk<span class="w"> </span>bye
+bye-bye.
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Customize <code class="docutils literal notranslate"><span class="pre">mk</span></code> for your own needs</p></li>
+</ol>
+</section>
+<section id="concept">
+<h2>Concept<a class="headerlink" href="#concept" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The key idea is iterating through arguments that corresponds to function names and invoking this functions</p></li>
+<li><p>Use the <a class="reference external" href="https://raw.githubusercontent.com/ilya-bystrov/mk/master/mk">template</a></p>
+<ul>
+<li><p>By default</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">/usr/bin/env</span> <span class="pre">bash</span></code> shebang</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">errexit</span></code>, <code class="docutils literal notranslate"><span class="pre">pipefail</span></code>, <code class="docutils literal notranslate"><span class="pre">nounset</span></code> bash options</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Or build your own</p></li>
+</ul>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<section id="docker-container-management">
+<h3>docker-container-management<a class="headerlink" href="#docker-container-management" title="Link to this heading">¶</a></h3>
+<p>Requires <code class="docutils literal notranslate"><span class="pre">docker</span></code> installed</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>mk/examples/docker-container-management/mk
+$<span class="w"> </span>mk<span class="w"> </span>build<span class="w">  </span><span class="c1"># build &#39;someimage&#39; docker image based on &#39;busybox&#39;</span>
+$<span class="w"> </span>mk<span class="w"> </span>run<span class="w">    </span><span class="c1"># run &#39;someimage&#39; image inside &#39;somecontainer&#39; container</span>
+$<span class="w"> </span>mk<span class="w"> </span>rm<span class="w">     </span><span class="c1"># remove &#39;somecontainer&#39; container</span>
+$<span class="w"> </span>mk<span class="w"> </span>rmi<span class="w">    </span><span class="c1"># remove &#39;someimage&#39; image</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="improvements">
+<h2>Improvements<a class="headerlink" href="#improvements" title="Link to this heading">¶</a></h2>
+<p>Feel free to suggest <a class="reference external" href="https://github.com/ilya-bystrov/mk/issues">improvements</a></p>
+</section>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
