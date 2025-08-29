@@ -1,0 +1,52 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2025-08-28 Thu
+   Last modified:  2025-08-29 Fri
+   </pre>
+
+#########################################
+Git: Treating Modified Files as Unchanged
+#########################################
+
+Sometimes, a repository can have configuration files that, for some reason, do not align with your system setup.
+
+In my case, I had a `pre-commit` configuration in the repository with a hardcoded version of Python3, but on my system,
+I had a newer version of Python3. Simply modifying the `pre-commit` config didn't work because, later during the `git
+commit`, there would be an error message: "Your pre-commit configuration is unstaged."
+
+One of the solutions can be the modification of such configs and asking Git to treat them as unmodified.
+
+**Note**: You cannot trick `pre-commit` if there are unstaged files. Use `git status` to check for them.
+
+Details
+=======
+
+There is a handy option to ignore such changes and not treat them as modifications:
+
+.. code-block:: bash
+
+   git update-index --assume-unchanged path/to/file.ext
+   git update-index --assume-unchanged path/to/dir/
+
+To list such files and directories:
+
+.. code-block:: bash
+
+   git ls-files -v | grep ^[a-z]
+
+To revert back:
+
+.. code-block:: bash
+
+  git update-index --no-assume-unchanged path/to/file.ext
+  git update-index --no-assume-unchanged path/to/dir/
+
+
+.. rubric:: References
+
+.. [#] :stackoverflow:`StackOverflow: Ignore modified (but not committed) files in git?<655243#761116>`
+.. [#] :stackoverflow:`StackOverflow: Can I get a list of files marked --assume-unchanged? <2363197#37083903>`
+
+
+
