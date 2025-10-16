@@ -1,0 +1,78 @@
+
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-03-26 Sat
+   Last modified:  2022-03-31 Thu
+   </pre>
+
+##############################################
+Vim: File Recovery and Dealing with Swap Files
+##############################################
+
+Vim recovery using swap files are really helpful feature.
+But it's rather annoying to compare file versions before and after recovery.
+
+In order to simplify this process here is an alias for applying recovery and creating separate file with 
+'.recovered' suffix.
+
+.. code-block:: bash
+
+   $ alias vimrecovery='vim -u NONE -r -c '\'':w ! cat >> %.recovered'\'' -c q!'
+
+`Vim help files <https://vimhelp.org/recover.txt.html#recovery>`_ recommends
+  
+  Be sure that the recovery was successful before overwriting the original
+  file or deleting the swap file.  It is good practice to write the recovered
+  file elsewhere and run 'diff' to find out if the changes you want are in the
+  recovered file.  Or use :DiffOrig.
+
+  Once you are sure the recovery is ok delete the swap file.  Otherwise, you
+  will continue to get warning messages that the ".swp" file already exists.
+  
+In my case it looks in the following way
+
+.. code-block:: bash
+
+   $ vimrecovery filename.ext
+   $ vimdiff filename.ext filename.ext.recovered
+   $ # choose [O]pen Read-Only and compare
+   $ # if recovered file looks good than recover original file
+   $ # type ':e' and choose (R)ecover (diff should show identical content) 
+   $ # type ':w' to save changes
+   $ # type ':e' and choose (D)elete it
+   $ # type ':qa' to exit
+   $ rm filename.ext.recovered
+
+
+Quick way if there were no data loss
+------------------------------------
+
+If you're pretty sure that file will not change after recovering, you can do the following
+
+.. code-block:: bash
+
+   $ vim filename.ext
+   $ # choose (R)ecover
+   $ # if you get message 
+   $ #   Recovery completed. Buffer contents equals file contents.
+   $ #   You may want to delete the .swp file now.
+   $ # than type ':e': and choose (D)elete it
+   $ # otherwise choose (A)bort and recover as described above
+
+.. rubric:: References
+
+
+* `Vim help files: Basic recovery <https://vimhelp.org/usr_11.txt.html#11.1>`_
+
+* :superuser:`How to make vim recover files from command line?<606797#607026>`
+
+* :stackoverflow:`How does the vim "write with sudo" trick work?<2600852#2600852>`
+
+* :superuser:`What's the easiest way to delete Vim swapfiles I've already recovered from?<480367#687914>`
+
+
+.. 
+  didn't find a way to do it much better, after split I need ability to recover and delete swap file, but swapchoice breaks it   
+  vim -r --cmd "autocmd SwapExists * let v:swapchoice = 'o'" -c ':set splitbelow' -c ':w ! cat > %.recovered' -c ':argument!' -c ':diffsp %.recovered' file
+
