@@ -1,0 +1,76 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2025-10-25 Sat
+   Last modified:  2025-10-25 Sat
+   </pre>
+
+
+####################################################
+Text-Based Copying of Directory Data: Tar and Base64
+####################################################
+
+Data can be transferred between machines without traditional file transfer protocols. By using ``tar`` for packing and
+compression, and ``base64`` for encoding, you can transfer directories via the clipboard.
+
+
+Steps
+-----
+
+
+1. **Pack, Compress and Encode:**
+
+
+   - Navigate to the parent directory of the directory you wish to copy and run:
+
+     .. code-block:: bash
+
+        tar -cz <source_directory> | base64
+
+
+   - Copy the resulting base64 string to your clipboard.
+
+| 
+
+
+2. **Decode and Extract:**
+
+
+   - On the destination machine, save the base64 string from the clipboard into a file and execute:
+
+     .. code-block:: bash
+
+        base64 -d <base64_string_file> | tar -xzf -
+
+Verbose Output with the -v Flag
+-------------------------------
+
+Adding the ``-v`` flag to the ``tar`` command prints the filenames as they are being processed. This provides more insight into which files are included in the operation.
+
+Filtering Files by Size
+-----------------------
+
+For directories containing large files you wish to exclude, you can filter them out during packing. The example below excludes files larger than 1MB:
+
+.. code-block:: bash
+
+   find <source_directory> -type f -size -1M -print0 | tar --null -czf - --files-from=- | base64
+
+
+Checking Output Size
+--------------------
+
+To check the size of the base64 encoded output, you can use the ``wc -c`` command, which counts the total number of bytes:
+
+.. code-block:: bash
+
+   tar -cz <source_directory> | base64 | wc -c
+
+
+Notes
+-----
+
+#. This method is suited for small data sizes due to clipboard buffer limitations.
+#. More space-efficient encodings exist, such as base85, which reduces overhead to about 25% compared to the 33% overhead of base64. However, base85 (ascii85) is not commonly preinstalled.
+#. Compression options for the ``tar`` command are not limited to ``-z``; you can also use ``-j`` for bzip2 or ``-J`` for xz. If desired, compression can be skipped altogether by omitting the compression flag.
+

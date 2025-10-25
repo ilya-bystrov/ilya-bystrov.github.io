@@ -1,0 +1,19 @@
+
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2020-05-29 Fri
+   Last modified:  2022-03-25 Fri
+   </pre>
+
+#####################################################
+Bash: How to determine the origin of the env variable 
+#####################################################
+
+Excellent answer on :unixstex:`Stack Exchange <813#154971>`
+
+.. code-block:: bash
+
+  $ PS4='+$BASH_SOURCE> ' BASH_XTRACEFD=7 bash -xl 7>&2
+
+
