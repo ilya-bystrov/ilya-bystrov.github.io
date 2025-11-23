@@ -1,0 +1,110 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-10-31 Mon
+   Last modified:  2023-11-22 Wed
+   </pre>
+
+Autostart SSH-agent on Ubuntu 22.04
+===================================
+
+After Ubuntu 22.04 installation I discovered that there is no running SSH agent out of the box.
+
+.. code-block:: bash
+
+   $ ssh-add -l
+   Could not open a connection to your authentication agent.
+
+I listed available SSH agent services:
+
+.. code-block:: bash
+
+   $ systemctl  --user list-units --all --type=service | grep -i ssh
+
+Two options were printed:
+
+
+* **gnome-keyring-ssh.service**
+
+* **ssh-agent.service**
+
+I read about
+`Gnome Keyring <https://nurdletech.com/linux-notes/agents/keyring.html>`_ and applied approach from
+`Archlinux wiki <https://wiki.archlinux.org/title/GNOME/Keyring#Enable_the_keyring_ssh_component>`_,
+but I didn't get any luck with **gnome-keyring-ssh.service**.
+
+**ssh-agent.service** also initially failed to start. I found out that unit should be modified.
+This command ``systemctl --user edit ssh-agent.service`` allows to modify a configuration.
+Here is an updated configuration (together with the original):
+
+.. code-block:: bash
+
+   $ systemctl --user cat ssh-agent.service
+   # /usr/lib/systemd/user/ssh-agent.service
+   [Unit]
+   Description=OpenSSH Agent
+   Documentation=man:ssh-agent(1)
+   Before=graphical-session-pre.target
+   ConditionPathExists=/etc/X11/Xsession.options
+   Wants=dbus.socket
+   After=dbus.socket
+
+   [Service]
+   ExecStart=/usr/lib/openssh/agent-launch start
+   ExecStopPost=/usr/lib/openssh/agent-launch stop
+
+   # /home/<username>/.config/systemd/user/ssh-agent.service.d/override.conf
+   [Unit]
+   Description=OpenSSH Agent
+   Documentation=man:ssh-agent(1)
+   Before=graphical-session-pre.target
+   ConditionPathExists=/etc/X11/Xsession.options Wants=dbus.socket
+   After=dbus.socket
+
+   [Service]
+   ExecStart=
+   ExecStart=/usr/lib/openssh/agent-launch start
+   ExecStopPost=/usr/lib/openssh/agent-launch stop
+   Restart=on-failure
+
+   [Install]
+   WantedBy=default.target
+
+
+As shown above, I
+
+
+* copied `ExecStart` commands (optional)
+
+* added `Restart= <https://www.freedesktop.org/software/systemd/man/systemd.service.html#Restart=>`_ 
+  (optional)
+
+* added Install section (mandatory)
+
+Note, that in case of ``ExecStart=``  overriding, an additional empty ``ExecStart=`` is needed: 
+
+
+* :stackoverflow:`Why ExecStart with no value<68817332>`
+
+* :unixstex:`More than one ExecStart<409354>`
+  
+The last thing is to enable and run service
+
+.. code-block:: bash
+
+    $ systemctl --user enable --now ssh-agent.service
+
+Service status can be checked with
+
+.. code-block:: bash
+
+    $ systemctl --user status ssh-agent.service
+
+Now the output of ``ssh-add`` should be the following:
+
+.. code-block:: bash
+
+   $ ssh-add -l
+   The agent has no identities.
+
+

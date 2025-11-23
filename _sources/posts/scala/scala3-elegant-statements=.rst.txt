@@ -1,0 +1,101 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2024-09-01 Sun
+   Last modified:  2025-06-13 Fri
+   </pre>
+
+
+###########################
+Scala 3: Elegant statements
+###########################
+
+groupMapReduce
+==============
+
+.. code-block:: scala
+
+   def freqMap[A](as: Seq[A]): Map[A, Int] =
+     as.groupMapReduce(identity)(_ => 1)(_ + _)
+
+``groupMapReduce`` is equivalent to ``groupBy(key).mapValues(_.map(f).reduce(g))``
+
+combinations
+============
+
+.. code-block:: scala
+
+   seq.combinations(2)
+
+..   comment
+
+
+ https://rosettacode.org/wiki/Power_set#Scala
+  Seq combinations
+  ---
+
+  string - filter
+  Vector
+  collect - filter and map, partial  function
+  x
+
+  https://superruzafa.github.io/visual-scala-reference/groupMapReduce/
+  https://www.scala-lang.org/api/3.3.5/scala/collection/IterableOps.html
+
+  Copying collection
+  https://stackoverflow.com/questions/1445629/how-to-copy-a-list-in-scala/69387306#69387306
+
+  scala> val l1 = List(1,2,3)
+  l1: List[Int] = List(1, 2, 3)
+
+  scala> val l2 = List(l1:_*)
+  l2: List[Int] = List(1, 2, 3)
+
+  BFS
+  https://stackoverflow.com/questions/2549541/performing-breadth-first-search-recursively/53799510#53799510
+
+    def bfs(nodes: List[Node]): List[Node] = {
+      if (nodes.nonEmpty) {
+        nodes ++ bfs(nodes.flatMap(_.children))
+      } else {
+        List.empty
+      }
+    }
+
+      def bfs(nodes: List[TreeNode]): List[TreeNode] = {
+        if (nodes.nonEmpty) {
+          nodes ++ bfs(nodes.flatMap(n => List(Option(n.left), Option(n.right)).flatten))
+        } else {
+          List.empty
+        }
+      }
+
+    def bfs(nodes: List[TreeNode]): Boolean = {
+      if (nodes.nonEmpty) {
+        if(nodes.exists(n => isEq(n, subRoot))) {
+          return true
+        }
+        val nextLevel = nodes.flatMap(n => List(Option(n.left), Option(n.right)).flatten)
+        bfs(nextLevel)
+      } else {
+        return false
+      }
+    }
+
+
+
+  DFS
+      def dfs(n: Node, h: Int, action: (Node, Int) => Unit): Unit = {
+        val hh = h + 1
+        (Option(n.left), Option(n.right)) match {
+          case (Some(l), Some(r)) =>
+            dfs(l, hh, action)
+            dfs(r, hh, action)
+          case (Some(l), None) =>
+            dfs(l, hh, action)
+          case (None, Some(r)) =>
+            dfs(r, hh, action)
+          case (None, None) => action(n, h)
+        }
+      }
+

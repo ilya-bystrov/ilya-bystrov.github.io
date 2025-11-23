@@ -1,0 +1,90 @@
+
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2019-10-15 Tue
+   Last modified:  2022-03-26 Sat
+   </pre>
+
+############################################################
+How To Create Subversion Server with "svn+ssh" Access Method
+############################################################
+
+This `type of Subverision installation <https://help.ubuntu.com/community/Subversion#Access_via_custom_protocol_with_SSH_encryption_.28svn.2B-ssh:.2F.2F.29>`_
+doesn't need running SVN server, but needs running SSH server instead. 
+And it's typical for remote servers (EC2 for instance).
+
+
+1. Create EC2 instance (remote machine) w/ ssh access.
+
+
+2. For ease of use, create ssh configuration on local machine.
+
+::
+
+  Host           <any custon name: 'svnrepo' for instance>
+    HostName       <ec2 instance IP address>
+    IdentityFile   <path to pem file>
+    User           ubuntu
+
+And connect to the remote machine.
+
+::
+
+  $ ssh svnrepo
+
+
+3. Install subversion on the remote machine.
+
+::
+
+  $ sudo apt-get update 
+  $ sudo apt-get upgrade
+  $ sudo apt-get install subversion
+
+
+4. Create SVN repo on the remote machine
+   (I created repository in the root dir for a shorter SVN URL path).
+
+::
+
+  $ sudo svnadmin create /<repo dir name>
+  $ sudo chown -R ubuntu:ubuntu /<repo dir name>
+
+
+5. Checkout from newly created SVN repo on the local machine.
+
+::
+
+  $ svn co svn+ssh://svnrepo/<repo dir name>
+
+Tech details
+============
+
+Access methods
+--------------
+
+`Version Control with Subversion <https://svnbook.red-bean.com/en/1.7/svn.basic.in-action.html#svn.basic.in-action.wc.tbl-1>`__
+describes the following methods
+
++--------------+-------------------------------------------------------------------------------+
+| Schema       | Access method                                                                 |
++==============+===============================================================================+
+| `file:///`   | Direct repository access (on local disk)                                      |
++--------------+-------------------------------------------------------------------------------+
+| `http://`    | Access via WebDAV protocol to Subversion-aware Apache server                  |
++--------------+-------------------------------------------------------------------------------+
+| `https://`   | Same as `http://`, but with SSL encapsulation (encryption and authentication) |
++--------------+-------------------------------------------------------------------------------+
+| `svn://`     | Access via custom protocol to an svnserve server                              |
++--------------+-------------------------------------------------------------------------------+
+| `svn+ssh://` | Same as `svn://`, but through an SSH tunnel                                   |
++--------------+-------------------------------------------------------------------------------+
+
+
+svn+ssh
+-------
+
+  The important thing to understand here is that the Subversion client is not connecting to a running svnserve daemon. This method of access doesn't require a daemon, nor does it notice one if present. It relies wholly on the ability of ssh to spawn a temporary svnserve process, which then terminates when the network connection is closed.
+
+  -- `Version Control with Subversion <https://svnbook.red-bean.com/en/1.7/svn.serverconfig.svnserve.html#svn.serverconfig.svnserve.sshauth>`__

@@ -1,0 +1,104 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2022-04-07 Thu
+  Last modified:  2022-04-07 Thu
+  </pre>
+
+
+##################
+Chromium: Crashpad
+##################
+
+Investigation
+=============
+
+I found out that there are rather annoying chromium flag ``--enable-crashpad`` and process 
+``/usr/lib/chromium-browser/chrome_crashpad_handler``.
+I was surprised that this flag appears even if I doesn't pass it.
+
+.. code-block:: bash
+
+   $ /usr/lib/chromium-browser/chromium-browser &
+   [1] 32189
+   $ *** stack smashing detected ***: <unknown> terminated
+   *** stack smashing detected ***: <unknown> terminated
+   *** stack smashing detected ***: <unknown> terminated
+
+   $ ps -fp 32189
+   UID        PID  PPID  C STIME TTY          TIME CMD
+   i        32189 31005 17 02:05 pts/10   00:00:02 /usr/lib/chromium-browser/chromium-browser --enable-crashpad
+
+This answer [#]_ pointed to source code [#]_.
+
+.. code-block:: c
+
+   #if BUILDFLAG(IS_LINUX)
+   // TODO(https://crbug.com/1176772): Remove when Chrome Linux is fully migrated
+   // to Crashpad.
+   base::CommandLine::ForCurrentProcess()->AppendSwitch(
+       ::switches::kEnableCrashpad);
+   #endif
+
+As far as I understand, ``32189`` process launches ``/usr/lib/chromium-browser/chrome_crashpad_handler`` and  
+``/usr/lib/chromium-browser/chromium-browser`` again but with ``--enable-crashpad`` flag.
+I think, it's confused way of dealing with options.
+
+Bug [#]_ mentioned in TODO is not resolved.
+
+Also, I tried to launch Chromium without ``/usr/lib/chromium-browser/chrome_crashpad_handler`` file.
+
+.. code-block:: bash
+
+   $ /usr/lib/chromium-browser/chromium-browser
+   [29802:29802:0407/022536.884851:FATAL:double_fork_and_exec.cc(131)] execv /usr/lib/chromium-browser/chrome_crashpad_handler: No such file or directory (2)
+
+In that case there is a fatal error and no UI appears.
+
+Conclusion
+==========
+
+Unfortunately, looks like there is no easy way to disable this behaviour right now.
+The option I guess is to modify source code and rebuild to get it work. But it's not an easy way.
+
+.. rubric:: References
+
+.. [#] https://community.brave.com/t/start-brave-without-enable-crashpad/305072/2
+.. [#] https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_main.cc;l=160-165
+.. [#] https://crbug.com/1176772
+
+.. 
+   comments
+   notes 2022-04, [4/6/22 11:09 PM]
+   https://www.chromium.org/developers/crash-reports/
+
+   notes 2022-04, [4/6/22 11:09 PM]
+   https://chromium.googlesource.com/crashpad/crashpad/+/HEAD/handler/crashpad_handler.md
+
+   notes 2022-04, [4/6/22 11:45 PM]
+   https://unix.stackexchange.com/questions/225802/finding-systemd-unit-owning-a-running-daemon-process
+
+   notes 2022-04, [4/6/22 11:52 PM]
+   https://community.brave.com/t/start-brave-without-enable-crashpad/305072/3
+
+   notes 2022-04, [4/7/22 12:09 AM]
+   https://groups.google.com/a/chromium.org/g/chromium-dev/c/CtanZz5thKg/m/0aOblIe6CAAJ
+
+   notes 2022-04, [4/7/22 12:12 AM]
+   https://bugs.chromium.org/p/chromium/issues/detail?id=1176772
+
+   notes 2022-04, [4/7/22 12:22 AM]
+   https://www.quora.com/What-is-a-defunct-process-in-Linux
+
+   notes 2022-04, [4/7/22 12:22 AM]
+   double_fork_and_exec
+
+   notes 2022-04, [4/7/22 12:23 AM]
+   https://groups.google.com/a/chromium.org/g/chromium-dev/c/CtanZz5thKg/m/0aOblIe6CAAJ
+
+   notes 2022-04, [4/7/22 12:25 AM]
+   https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_main.cc;l=1?q=chrome_main.cc&sq=&ss=chromium%2Fchromium%2Fsrc
+
+   notes 2022-04, [4/7/22 12:28 AM]
+   https://chromium.googlesource.com/chromium/src/+/main/docs/linux/build_instructions.md#Get-the-code
+

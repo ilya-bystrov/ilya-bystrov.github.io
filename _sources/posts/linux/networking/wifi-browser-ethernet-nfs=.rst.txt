@@ -1,0 +1,28 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2022-04-15 Fri
+  Last modified:  2022-05-26 Thu
+  </pre>
+
+##################################################
+Networking: Wi-Fi for Browser and Ethernet for NFS
+##################################################
+
+``nm-connection-editor`` GUI tool allows to control routes.
+
+``Edit Connection Settings -> IPv4 Settings / IPv6 Settings -> Routes... -> Use this connection only for 
+resources on its network``
+
+In order to apply connection changes reconnection is needed.
+
+In my case I enabled this option for Ethernet connection when Ethernet connection has no access to 
+the internet. It allows to use Ethernet for NFS share but Wi-Fi for web browsing.
+
+
+
+.. rubric:: References
+
+#. :askubuntu:`How to get connection to both wifi as well as LAN in ubuntu 14.04 LTS? <639100#639425>`
+
+

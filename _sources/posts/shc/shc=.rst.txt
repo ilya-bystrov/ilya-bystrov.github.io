@@ -1,0 +1,44 @@
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2022-10-15 Sat
+   Last modified:  2023-02-11 Sat
+   </pre>
+
+shc: Generic shell script compiler
+==================================
+
+From man [#]_ page:
+
+  shc's main purpose is to protect your shell scripts from modification or inspection. You can use it if you 
+  wish to distribute your scripts but don't want them to be easily readable by other people.
+
+Usage:
+
+.. code-block:: bash
+
+  $ cat hi.sh
+  #!/bin/bash
+  echo hi
+
+  $ shc -v -Hf  hi.sh -o hi
+  shc shll=bash
+  shc [-i]=-c
+  shc [-x]=exec '%s' "$@"
+  shc [-l]=
+  shc opts=
+  shc: cc   hi.sh.x.c -o hi
+  shc: strip hi
+  shc: chmod ug=rwx,o=rx hi
+
+  $ ./hi
+  hi
+
+.. rubric:: References
+
+.. [#] https://manpages.ubuntu.com/manpages/jammy/en/man1/shc.1.html
+.. [#] https://neurobin.org/projects/softwares/unix/shc
+.. [#] https://github.com/neurobin/shc
+.. [#] http://www.datsi.fi.upm.es/~frosal/
+.. [#] https://www.thegeekstuff.com/2012/05/encrypt-bash-shell-script/
+

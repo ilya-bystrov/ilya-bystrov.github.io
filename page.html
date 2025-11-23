@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="referrer" content="no-referrer">
+    <title>✨</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=" type="image/png">
+
+
+    <style>
+        #search-container {
+            text-align: center;
+            margin-top: 20vh; /* Adjust the value for vertical positioning */
+        }
+        #search-input {
+            text-align: center;
+            caret-color: transparent; /* Hides the cursor */
+            border-radius: 5px;       /* Apply rounded corners */
+            padding: 8px;             /* Add padding for space inside the input */
+            border: 1px solid #858585;    
+            outline: none;            /* Removes the border when focused */
+        }
+        #search-input:focus {
+            border: 1px solid #999900; /* Add a border when focused, change color as desired */
+        }
+        #dropdown {
+            display: none; /* Initially hide the dropdown */
+            background-color: transparent;
+            text-align: center;
+            caret-color: transparent; /* Hides the cursor */
+            border-radius: 5px;       /* Apply rounded corners */
+            padding: 8px;             /* Add padding for space inside the input */
+            border: 1px solid #858585;    
+            outline: none;            /* Removes the border when focused */
+        }
+        #dropdown:focus {
+            border: 1px solid #999900; /* Add a border when focused, change color as desired */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <form onsubmit="return processEnter()" autocomplete="off">
+            <input id="search-input" oninput="processTyping()" type="text" size="60" autofocus/>
+            <select id="dropdown" size="1">
+            </select>
+        </form>
+    </div>
+    <div>
+      <pre style="color:rgba(0,0,0,0);">
+&lt;C-i&gt;	beginningOfLine
+&lt;C-e&gt;	endOfLine
+&lt;C-u&gt;	deleteToBeginning
+&lt;C-o&gt;	deleteToEnd
+&lt;C-y&gt;	deleteWord
+&lt;C-p&gt;	deleteForwardWord
+unmapped deleteChar
+unmappe	deleteForwardChar
+&lt;C-h&gt;	backwardWord
+&lt;C-l&gt;	forwardWord
+&lt;C-f&gt;	forwardChar
+&lt;C-b&gt;	backwardChar
+&lt;C-j&gt;	forwardLine
+&lt;C-k&gt;	backwardLine
+unmapped selectAll
+unmapped editWithVim
+      </pre>
+    </div>
+    <script>
+        const searchInput= document.getElementById("search-input");
+        const dropdown = document.getElementById('dropdown');
+
+        function isURL(str) {
+            try {
+                new URL(str);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function openUrl(input) {
+            //1//window.location.href = input;
+            //2//window.open(input, "_blank", "noopener,noreferer");
+            //3//window.open(input, "_blank", "noreferer");
+            //4//window.open(input, "_blank", "noreferer");
+            //4//constconst newWindow = window.open();
+            //4//newWindow.opener = null;
+            //4//newWindow.location = input;
+            //5//window.location.replace(input);
+            var a = document.createElement('a');
+            a.href = input;
+            a.rel = 'noreferrer';
+            a.click();
+        }
+
+        function addNewItemToDropdown(itemText, itemUrl) {
+            const newOption = document.createElement('option');
+            newOption.value = itemText;
+            newOption.textContent = itemText;
+            newOption.setAttribute('item-url', itemUrl);
+            dropdown.appendChild(newOption);
+        }
+
+        function clearDropdown() {
+            while (dropdown.options.length > 0) {
+                dropdown.remove(0);
+            }
+        }
+
+        dropdown.addEventListener('keydown', function(event) {
+            event.preventDefault();
+            const currentIndex = dropdown.selectedIndex;
+            if (event.key === 'j' || event.key === 'J') {
+                if (currentIndex < dropdown.options.length - 1) {
+                    dropdown.selectedIndex += 1;
+                }
+            } else if (event.key === 'k' || event.key === 'K') {
+                if (currentIndex > 0) {
+                    dropdown.selectedIndex -= 1;
+                }
+            } else if (event.key === 'Enter') {
+                const selectedItem = dropdown.options[currentIndex];
+                const url = selectedItem.getAttribute('item-url');
+                if (url) {
+                    openUrl(url);
+                }
+            }
+        });
+
+        function processTyping() {
+            var input = searchInput.value;
+            switch (input) {
+                case "pmi":
+                    clearDropdown();
+
+                    addNewItemToDropdown(
+                      "pmi.org", "https://www.pmi.org");
+                    addNewItemToDropdown(
+                      "my.pmi.org/certification", "https://my.pmi.org/certification");
+                    addNewItemToDropdown(
+                      "projectmanagement.com/userinfo.cfm", "https://www.projectmanagement.com/userinfo.cfm");
+                    addNewItemToDropdown(
+                      "community.pmi.org/communitypreferences/community-profile", "https://community.pmi.org/communitypreferences/community-profile");
+                    addNewItemToDropdown(
+                      "ccrs.pmi.org", "https://ccrs.pmi.org");
+                    addNewItemToDropdown(
+                      "projectmanagement.com/webinars/webinarmainondemand.cfm", "https://www.projectmanagement.com/webinars/webinarmainondemand.cfm");
+                    addNewItemToDropdown(
+                      "projectmanagement.com/webinars", "https://www.projectmanagement.com/webinars");
+                    addNewItemToDropdown(
+                      "my.pmi.org/library/courses-in-progress", "https://my.pmi.org/library/courses-in-progress");
+                    addNewItemToDropdown(
+                      "pmi.org/kickoff", "https://www.pmi.org/kickoff");
+
+                    searchInput.style.display = 'none';
+                    dropdown.style.display = 'inline'; 
+                    dropdown.focus(); 
+                    break;
+                case "vpn":
+                    clearDropdown();
+
+                    addNewItemToDropdown(
+                      "hola vpn", "https://chromewebstore.google.com/detail/hola-vpn-your-website-unb/gkojfkhlekighikafcpjkiklfbnlmeio");
+
+                    searchInput.style.display = 'none';
+                    dropdown.style.display = 'inline'; 
+                    dropdown.focus(); 
+                    break;
+            }
+        }
+
+
+       function processEnter(event) {
+            var input = searchInput.value;
+
+            switch (input) {
+                case "c":
+                    openUrl("https://coursera.org");
+                    break;
+                case "k":
+                    openUrl("https://keybr.com");
+                    break;
+                case "i":
+                    openUrl("https://ilya-bystrov.github.io");
+                    break;
+                case "cs":
+                    openUrl("https://hltv.org/results?stars=1");
+                    break;
+                case "in":
+                    openUrl("https://www.linkedin.com/analytics/profile-views");
+                    break;
+                case "gm":
+                    openUrl("https://maps.google.com");
+                    break;
+                case "gt":
+                    openUrl("https://translate.google.com/?sl=auto&tl=ru&op=translate");
+                    break;
+                case "gtd":
+                    openUrl("https://translate.google.com/?sl=auto&tl=ru&op=docs");
+                    break;
+                case "yt":
+                    openUrl("https://translate.yandex.ru/editor");
+                    break;
+                case "xp":
+                    openUrl("http://www.extremeprogramming.org/")
+                    break;
+                case "spb":
+                    openUrl("https://www.rtr.spb.ru/Vesti_spb/vesti_24.asp");
+                    break;
+                case "spbsun":
+                    openUrl("https://www.rtr.spb.ru/vesti_spb/sobned.asp");
+                    break;
+                case "msg":
+                    openUrl("https://messages.google.com/web");
+                    break;
+                case "lo":
+                    openUrl("https://learning.oreilly.com");
+                    break;
+                case "ll":
+                    openUrl("http://localhost:8080");
+                    break;
+                case "lc":
+                    openUrl("https://leetcode.com");
+                    break;
+                case "lci":
+                    openUrl("https://leetcode.com/discuss/interview-experience");
+                    break;
+                case "ym":
+                    openUrl("https://yandex.com/maps/2/saint-petersburg");
+                    break;
+                case "parkeren":
+                    openUrl("https://www.prettigparkeren.nl");
+                    break;
+                case "fine":
+                    openUrl("https://www.cjib.nl");
+                    break;
+                case "kia-insurance":
+                    openUrl("https://www.mijnverzekeringsportaal.nl");
+                    break;
+                case "f":
+                    openUrl("https://funda.nl/en");
+                    break;
+                case "f10":
+                    openUrl("https://www.funda.nl/en/zoeken/kaart/koop?selected_area=%5B%22nl%22%5D&publication_date=%2210%22&zoom=15&centerLat=52.3726&centerLng=4.9282");
+                    break;
+                case "f3":
+                    openUrl("https://www.funda.nl/en/zoeken/kaart/koop?selected_area=%5B%22nl%22%5D&zoom=15&centerLat=52.3715&centerLng=4.9324&publication_date=%223%22");
+                    break;
+                case "magixx":
+                    openUrl("https://www.twitch.tv/magixxlff");
+                    break;
+                default:
+                    if (input.startsWith("g ")) { 
+                        input = input.substring(2);
+                        openUrl("https://duckduckgo.com/?q=!g " + input);
+                        break;
+                    } else if (input.startsWith("gb ")) { 
+                        input = input.substring(3);
+                        openUrl("https://www.google.com/search?udm=36&q=" + input);
+                        break;
+                    } else if (input.startsWith("gs ")) { 
+                        input = input.substring(3);
+                        openUrl("https://scholar.google.com/scholar?q=" + input);
+                        break;
+                    } else if (input.startsWith("y ")) { 
+                        input = input.substring(2);
+                        openUrl("https://duckduckgo.com/?q=!yandex " + input);
+                        break;
+                    } else if (input.startsWith("i ")) { 
+                        input = input.substring(2);
+                        openUrl("https://ilya-bystrov.github.io/search.html?q=" + input);
+                        break;
+                    } else if (input.startsWith("u ")) { 
+                        input = input.substring(2);
+                        if(isURL(input)) {
+                            openUrl(input)
+                            break;
+                        } else {
+                            inputWithHttps  = "https://" + input;
+                            if(isURL(inputWithHttps)) { 
+                                openUrl(inputWithHttps);
+                                break;
+                            }
+                        }
+                        openUrl("https://duckduckgo.com/?q=" + input);
+                        break;
+                    } else if (input.startsWith("lc ")) { 
+                        input = input.substring(3);
+                        openUrl("https://leetcode.com/problems/" + input);
+                        break;
+                    } else if (input.startsWith("lm ")) {
+                        input = input.substring(3);
+                        openUrl("https://www.linux-magazine.com/index.php/content/search?SearchText=" + input);
+                        break;
+                    } else if (input.startsWith("yt ")) { 
+                        input = input.substring(3);
+                        openUrl("https://www.youtube.com/results?search_query=" + input);
+                        break;
+                    } else if (input.startsWith("1 ")) { 
+                        input = input.substring(2);
+
+                        openUrl("https://www.google.com/search?btnI=1&q=" + input);
+                        //window.location.href = "https://duckduckgo.com/?q=%5C" + input;
+                        //window.location.href = "https://duckduckgo.com/?q=!ducky " + input;
+                        break;
+                    } else {
+                        // Redirect to a default page for other inputs
+                        // https://www.google.com/search?q=
+                        openUrl("https://duckduckgo.com/?q=" + input);
+                        break;
+                    }
+            }
+
+            return false; // Prevent form submission
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("search-input").focus();
+        });
+        //window.onload = function() {
+        //    document.getElementById("search-input").focus();
+        //};
+        //window.onload = function() {
+        //  setTimeout(function() {
+        //      document.getElementById("search-input").focus();
+        //  }, 1000);
+        //};
+        //window.onload = function() {
+        //    requestAnimationFrame(function() {
+        //        document.getElementById("search-input").focus();
+        //    });
+        //};
+        // function focusInput() {
+        //     const input = document.getElementById("search-input");
+        //     input.focus();
+        //     // If focus doesn't work, refresh the page (not recommended for UX)
+        //     if (document.activeElement !== input) {
+        //         location.reload(); // Refresh the page
+        //     }
+        // }
+        // window.onload = focusInput; // Call on page load
+    </script>
+</body>
+</html>
+

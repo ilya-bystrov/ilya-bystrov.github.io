@@ -1,0 +1,96 @@
+
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2022-06-06 Mon
+   Last modified:  2022-07-11 Mon
+   </pre>
+
+Agile Manifesto: Pitfalls in Terminology When Referring to the Manifesto
+========================================================================
+
+Well-known Agile Manifesto consists of `4 statements <https://agilemanifesto.org>`_
+and `12 principles behind the manifesto <https://agilemanifesto.org/principles.html>`_.
+
+Clear understanding of terminology is essential in effective communication.
+From my point of view, there are common *pitfalls in terminology* when referring to the manifesto:
+
+
+* There are *no values* in the manifesto.
+
+  + The manifesto declares that in each of the 4 statements *items* on the left *are valued* more than items 
+    on the right, that's it.
+
+* Principles are *not based* on the manifesto, it's the opposite.
+
+  + The manifesto clearly states that *principles behind the manifesto*.
+
+    - It means that **inductive reasonig** was used: 12 principles were generalized in 4 statements.
+
+As a result, manifesto statements are aligned with principles.
+
+My compound view of statements and principles 
+----------------------------------------------
+
+Keep in mind that statements arose from principles, not the other way round.
+
+
+* **Individuals and interactions** over *processes and tools*
+
+  + \(5) Build projects around **motivated individuals**. Give them the environment and support they need, and 
+    trust them to get the job done.
+
+  + \(6) The most efficient and effective method of conveying information to and within a development team is 
+    **face-to-face conversation**.
+
+  + \(11) The best architectures, requirements, and designs emerge from **self-organizing teams**.
+
+    - \(12) At regular intervals, the **team reflects** on how to become more effective, then tunes and 
+      adjusts its behavior accordingly.
+
+|
+
+
+* **Working software** over *comprehensive documentation*
+
+  + \(1) Our highest priority is to satisfy the customer through early and continuous **delivery of valuable 
+    software**.
+
+    - \(3) **Deliver working software frequently**, from a couple of weeks to a couple of months, with a 
+      preference to the shorter timescale.
+
+  + \(7) Working software is **the primary measure of progress**.
+
+|
+
+
+* **Customer collaboration** over *contract negotiation*
+
+  + \(4) Business people and developers must **work together daily** throughout the project.
+
+|
+
+
+* **Responding to change** over *following a plan*
+
+  + \(2) **Welcome changing requirements**, even late in development. Agile processes harness change for the 
+    customer's competitive advantage.
+
+|
+
+
+* Not directly associated 
+
+  + \(8) Agile processes promote sustainable development.  The sponsors, developers, and users should be able 
+    to maintain a constant pace indefinitely.
+
+  + \(9) Continuous attention to technical excellence and good design enhances agility.
+
+  + \(10) Simplicity -- the art of maximizing the amount of work not done -- is essential.
+
+|
+
+.. 
+   comment
+   https://www.atlassian.com/agile/manifesto
+   https://www.agilealliance.org/agile101/12-principles-behind-the-agile-manifesto/

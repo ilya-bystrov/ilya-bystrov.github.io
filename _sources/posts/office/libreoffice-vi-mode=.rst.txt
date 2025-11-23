@@ -1,0 +1,23 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2022-02-28 Mon
+  Last modified:  2022-02-28 Mon
+  </pre>
+
+######################
+Vi Mode in LibreOffice
+######################
+
+
+* `Original extension <https://github.com/seanyeh/vibreoffice>`_
+
+  + Repo is archived and *extension doesn't support non-latin keys for cursor motions*.
+
+* There are many `forks <https://github.com/seanyeh/vibreoffice/network/members>`_.
+
+  + `This fork <https://github.com/yamsu/vibreoffice>`__ have extra info in README file.
+
+  + And pointed me to `this fork <https://github.com/fedorov-ao/vibreoffice>`_ that *works fine*.
+
+    - `Download link <https://raw.github.com/fedorov-ao/vibreoffice/master/dist/vibreoffice-0.1.5.oxt>`_

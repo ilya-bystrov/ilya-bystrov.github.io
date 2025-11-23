@@ -1,0 +1,25 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2023-01-31 Tue 
+  Last modified:  2023-07-19 Wed
+  </pre>
+
+
+ADB: Android Easy Backup From Recovery Mode
+===========================================
+
+.. code-block:: bash
+
+  adb devices # list devices
+  adb shell # explore file system
+  adb pull /sdcard/DCIM .   # pull data
+  adb push <local> <remote> # push data
+
+
+Recovery mode on Samsung Galaxy S9
+
+#. Device is powered off
+#. Press and hold the Volume up + Bixby buttons
+#. While continuing to hold Volume up and Bixby buttons, press and hold the Power button until the device 
+   vibrates 
