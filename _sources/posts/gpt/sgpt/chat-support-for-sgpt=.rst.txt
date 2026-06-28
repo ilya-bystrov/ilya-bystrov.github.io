@@ -1,0 +1,95 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2023-12-06 Wed 
+   Last modified:  2023-12-26 Tue
+   </pre>
+
+Chat Support for SGPT
+=====================
+
+From [#]_:
+
+  SGPT is a command-line tool that provides a convenient way to interact with
+  OpenAI models, enabling users to run queries, generate shell commands and
+  produce code directly from the terminal.
+
+There is no chat support yet [#]_, but it can be achieved via bash one-liner using `rlwrap` [#]_ and an input loop:
+
+.. code-block:: bash
+
+   rlwrap bash -c 'echo ▶; while read in; do [[ -n "$in" ]] && echo ■ && sgpt --chat chat_name "$in" && echo ▶; done'
+
+
+Usage:
+
+.. code-block:: text
+
+   ▶
+   mass of sun
+   ■
+   The mass of the Sun is approximately 1.989 x 10^30 kilograms, or about 330,000 times the mass of Earth. It contains about 99.86% of the total mass of the Solar System and is by far the most dominant object in it. The Sun's mass is composed mostly of hydrogen (~74%) and helium (~24%), with the remaining 2% consisting of heavier elements.
+   ▶
+   convert to earth masses
+   ■
+   To convert the mass of the Sun to Earth masses, you can simply divide the Sun's mass by the mass of the Earth. Given that:
+
+
+   A. The Sun's mass is approximately 1.989 x 10^30 kilograms.
+
+   B. The Earth's mass is approximately 5.972 x 10^24 kilograms.
+
+   Using these values, you can calculate how many Earth masses the Sun is:
+
+   (1.989 x 10^30 kg) / (5.972 x 10^24 kg/Earth) = approximately 333,000 Earth masses
+
+   So the Sun is about 333,000 times more massive than the Earth.
+   ▶
+
+
+Auto-generation of session names and notification support can be added:
+
+.. code-block:: bash
+
+   #!/usr/bin/env bash
+
+   shopt -s -o errexit
+   shopt -s -o pipefail
+   shopt -s -o nounset
+   shopt -s inherit_errexit
+
+   export CHAT="$(date '+%Y%m%d%H%M%S%3N')_$(tr -dc 'A-Za-z' </dev/urandom | head -c 3)"
+   rlwrap bash -c 'echo ▶; while read in; do [[ -n "$in" ]] && echo ■ && sgpt --chat "$CHAT" "$in" && echo ▶ && notify-send --urgency=low 💬 ; done'
+
+
+.. rubric:: References
+
+.. [#] `GitHub - tbckr/sgpt <https://github.com/tbckr/sgpt>`_
+.. [#] `Interactive chat session · Issue #111 · tbckr/sgpt <https://github.com/tbckr/sgpt/issues/111>`_
+.. [#] `GitHub - hanslub42/rlwrap <https://github.com/hanslub42/rlwrap>`_
+
+
+.. 
+  comments
+
+  
+  https://www.ps.uni-saarland.de/theses/cmueller/data/fopra/userguide-html/node3.html
+  https://www.markhneedham.com/blog/2023/09/29/openai-gpt-chat-vs-instruct/
+  
+  Also, I found usefeul the 'personas' feature of SGPT.
+  
+  1 /home/files/repo2069/blog4/posts
+  $ ^Cpt -v chat ls
+  130 /home/files/repo2069/blog4/posts
+  $ sgpt sh --chat test ""mass of sun""
+  
+  cd -- gpt sh --chat test mass of sun
+  -bash: cd: too many arguments
+  1 /home/files/repo2069/blog4/posts
+  $ gpt sh --chat test ""mass of sun"
+  > ^C
+  130 /home/files/repo2069/blog4/posts
+  $ sgpt sh --chat test "mass of sun"
+  curl -s "http://www.wolframalpha.com/input/?i=mass+of+sun" | grep -oP 'Mass</span></th><td class="[^"]+"><span class="[^"]+">[^<]+' | sed 's/^.*">//'
+  /home/files/repo2069/blog4/posts
+  $ s

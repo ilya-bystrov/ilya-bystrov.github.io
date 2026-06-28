@@ -1,0 +1,97 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2026-04-12 Sun 01:30:56 
+   Last modified:  2026-06-28 Sun 04:12:07
+   </pre>
+
+##################################################
+How to mount a partition from a former RAID1 drive
+##################################################
+
+I decided to replace the NAS drives with larger ones.
+The replacement, including copying the old data, happened without issues.
+
+Then I decided to check the data on the old drives using a laptop and discovered that setting up a degraded RAID1 with one
+drive for data access didn't work for me.
+
+So I used a more primitive approach.
+
+It's worth mentioning that the partitions were unencrypted and the filesystem was ext4.
+
+I decided to find the start of the ext4 partition and mount it.
+
+`fdisk` didn't give me anything helpful.
+
+.. code-block:: console
+
+  # fdisk -l /dev/sda
+  Disk /dev/sda: 3.64 TiB, 4000787030016 bytes, 7814037168 sectors
+  Disk model: EFAX-68JH4N0
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+`gdisk` provided more information.
+
+.. code-block:: console
+
+  # gdisk -l /dev/sda
+  GPT fdisk (gdisk) version 1.0.9
+
+  Partition table scan:
+    MBR: not present
+    BSD: not present
+    APM: not present
+    GPT: present
+
+  Found valid GPT with corrupt MBR; using GPT and will write new
+  protective MBR on save.
+  Disk /dev/sda: 7814037168 sectors, 3.6 TiB
+  Model: EFAX-68JH4N0
+  Sector size (logical/physical): 512/512 bytes
+  Disk identifier (GUID): CBD7DFD7-CCFF-482A-B399-36B755C09817
+  Partition table holds up to 128 entries
+  Main partition table begins at sector 2 and ends at sector 33
+  First usable sector is 34, last usable sector is 7814037134
+  Partitions will be aligned on 256-sector boundaries
+  Total free space is 467149 sectors (228.1 MiB)
+
+  Number  Start (sector)    End (sector)  Size       Code  Name
+     1            2048         4982527   2.4 GiB     FD00
+     2         4982528         9176831   2.0 GiB     FD00
+     3         9437184      7813832351   3.6 TiB     FD00
+
+But unfortunately, I wasn't able to mount the partition using the reported start sector.
+
+After thinking for a while, I decided to look for the start of the partition using the ext4 magic number: ef53.
+I ended up with a command that successfully mounted the partition.
+
+.. code-block:: console
+
+  # mount -t ext4 -o loop,offset=$((512*(9437184+27776))) /dev/sda /mnt/
+
+You may notice that the `offset` setting looks weird. It's actually the output of a small non-optimized bash script that I used to
+look for the start of the partition. Here is the script:
+
+.. code-block:: bash
+
+  block=9437184
+  maxinc=100000
+  inc=$(( - maxinc / 2 ))
+  while (( $inc < $(( maxinc / 2)) ))
+  do
+          if dd if=/dev/sda bs=1 skip=$((($block+$inc)*512+1080)) count=2 status=none | hexdump | grep  ef53;  then
+            echo "$block+$inc"
+    fi
+    inc=$((inc+1))
+  done
+
+The output can contain matches that are not indicators of the start of the partition, so I had to check all of them::
+
+  0000000 ef53
+  9437184+19296
+  0000000 ef53
+  9437184+27776
+
+Finally, 9437184+27776 was the correct offset.

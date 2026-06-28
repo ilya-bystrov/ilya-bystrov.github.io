@@ -1,0 +1,36 @@
+
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-01-02 Sun
+   Last modified:  2022-03-12 Sat
+   </pre>
+
+########################################
+Refcard: Install, Remove, Purge commands
+########################################
+
++--------------------+---------+-----------+---------------+--------------------+---------------+
+| Maintenance tool   | Install | Remove    | Purge [#f1]_  | System-wide [#f2]_ | User-specific |
++====================+=========+===========+===============+====================+===============+
+| add-apt-repository |         | --remove  | n/a           | n/a                | n/a           |
++--------------------+---------+-----------+---------------+--------------------+---------------+
+| `apt / apt-get`_   | install | remove    | purge         | n/a                | n/a           |
++--------------------+---------+-----------+---------------+--------------------+---------------+
+| `snap`_            | install | remove    | --purge       | n/a                | n/a           |
++--------------------+---------+-----------+---------------+--------------------+---------------+
+| `flatpak`_         | install | uninstall | --delete-data | --system (default) | --user        |
++--------------------+---------+-----------+---------------+--------------------+---------------+
+| `pip`_             | install | uninstall | n/a           |                    | --user        |
++--------------------+---------+-----------+---------------+--------------------+---------------+
+
+.. _apt / apt-get: https://debian-handbook.info/browse/stable/sect.apt-get.html
+.. _snap: https://snapcraft.io/docs/getting-started
+.. _flatpak: https://docs.flatpak.org/en/latest/flatpak-command-reference.html
+.. _pip: https://pip.pypa.io/en/stable/cli/
+
+.. TODO flatpak uninstall --unused
+
+.. [#f1] *Purge* command also removes configuration files (in comparison with *remove* command).
+.. [#f2] System-wide and user-specific options can be applicable to package files or/and to configuration files. Check the documentation.
+

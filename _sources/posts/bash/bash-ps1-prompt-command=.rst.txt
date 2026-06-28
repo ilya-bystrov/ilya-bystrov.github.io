@@ -1,0 +1,31 @@
+
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2025-03-28 Fri
+   Last modified:  2025-03-28 Fri
+   </pre>
+
+##############################################
+Bash Prompt Customization: PS1, PROMPT_COMMAND
+##############################################
+
++----------------------+-------------------------------------------------+----------------------------------------------------+
+| Aspect               | Function Call via ``PS1``                       | Function Call via ``PROMPT_COMMAND``               |
++======================+=================================================+====================================================+
+| **Purpose**          | Embeds function output into the prompt display. | Executes a function to perform actions before      |
+|                      |                                                 | displaying the prompt.                             |
++----------------------+-------------------------------------------------+----------------------------------------------------+
+| **State Changes**    | Typically has no lasting state changes beyond   | Can alter shell state or environment, affecting    |
+|                      | prompt appearance.                              | subsequent commands.                               |
++----------------------+-------------------------------------------------+----------------------------------------------------+
+
+.. rubric:: References
+
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PS1
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PROMPT_005fCOMMAND
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#Interactive-Shell-Behavior
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PS0
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PS2
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PS3
+.. [#] https://www.gnu.org/software/bash/manual/bash.html#index-PS4

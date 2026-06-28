@@ -1,0 +1,100 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-04-11 Mon
+   Last modified:  2022-04-12 Tue
+   </pre>
+
+#############################
+Split a File But Keep Headers
+#############################
+
+A `split <https://www.gnu.org/software/coreutils/manual/coreutils.html#split-invocation>`_ is a powerful utility. It supports multiple splitting options.
+
++-------+-----------------------------------------------------+
+| n     | generate n files based on current size of input     |
++-------+-----------------------------------------------------+
+| k/n   | output only kth of n to standard output             |
++-------+-----------------------------------------------------+
+| l/n   | generate n files without splitting lines or records |
++-------+-----------------------------------------------------+
+| l/k/n | likewise but output only kth of n to stdout         |
++-------+-----------------------------------------------------+
+| r/n   | like ‘l’ but use round robin distribution           |
++-------+-----------------------------------------------------+
+| r/k/n | likewise but output only kth of n to stdout         |
++-------+-----------------------------------------------------+
+
+``l/n`` option is almost suitable for splitting files in DSV (delimiter-separated values) format (csv, tsv, 
+etc). The only problem is preserving headers.
+
+There are multiple good options to handle it:
+
+
+* `Baeldung: Split a File With the Header Line <https://www.baeldung.com/linux/split-file-with-header>`_
+
+  + But ``l/n`` option doesn't work
+
+    - ``cannot determine file size``
+
+* :stackoverflow:`StackOverflow: Split CSV files into smaller files but keeping the headers? <51420966#55764464>`
+
+  + Cubersome: need to take care of the first split filename
+
+I generalized an idea a little bit.
+*The question is how to provide the header for all splits except the first one?*
+Here is the bash-scipt called ``split_filter_header`` that should be in ``$PATH`` (I use ``~/bin``):
+
+.. code-block:: bash
+
+   #!/usr/bin/env bash
+
+   set -o errexit
+   set -o pipefail
+   set -o nounset
+
+   flag="$XDG_RUNTIME_DIR/.split_filter_header_was_called"
+
+   if [[ $# -ne 1 ]]; then
+     exit 1
+   fi  
+   if [[ $1 == '--reset' ]]; then
+     command rm $flag
+     exit
+   fi
+   if [[ -f $flag ]]; then
+     head -n 1 "$1"
+   fi
+
+   > $flag 
+
+And splitting with any options can be performed in the following way:
+
+.. code-block:: bash
+
+   $ split_filter_header --reset ; split http.csv -d -n l/9 --filter '(split_filter_header http.csv; cat) > $FILE' http.csv.part
+
+
+* ``split_filter_header --reset`` - no header for the first split
+
+* ``http.csv`` - input file
+
+* ``-d`` - numeric suffixes
+
+* ``-n l/9`` - split file into 9 pieces without splitting lines
+
+* ``--filter '(split_filter_header http.csv; cat) > $FILE'`` - **main part**, prepend output with the header
+
+* ``http.csv.part`` - split prefix
+
+The **restriction** is that you shouldn't run splitting in that way *in parallel*, because 
+``split_filter_header --reset`` call affects next ``split_filter_header <filename>`` call.
+
+.. 
+  extra
+  https://unix.stackexchange.com/questions/59360/what-is-the-zsh-equivalent-of-bashs-export-f
+  https://stackoverflow.com/questions/16618071/can-i-export-a-variable-to-the-environment-from-a-bash-script-without-sourcing-i
+  https://unix.stackexchange.com/questions/65751/how-to-get-functions-propagated-to-subshell
+  split file -d -n l/2 --filter 'echo $FILE'
+
+

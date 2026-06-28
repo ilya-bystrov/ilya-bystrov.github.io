@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ADB: Android Easy Backup From Recovery Mode</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Big Data Workflows on AWS" href="../aws/big-data-workflows/aws-big-data-workflows%3D.html" />
+    <link rel="prev" title="I. Bystrov&#39;s Tech Notes" href="../../index.html" />
+
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2023-01-31 Tue
+Last modified:  2023-07-19 Wed
+</pre><section id="adb-android-easy-backup-from-recovery-mode">
+<h1>ADB: Android Easy Backup From Recovery Mode<a class="headerlink" href="#adb-android-easy-backup-from-recovery-mode" title="Link to this heading">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adb<span class="w"> </span>devices<span class="w"> </span><span class="c1"># list devices</span>
+adb<span class="w"> </span>shell<span class="w"> </span><span class="c1"># explore file system</span>
+adb<span class="w"> </span>pull<span class="w"> </span>/sdcard/DCIM<span class="w"> </span>.<span class="w">   </span><span class="c1"># pull data</span>
+adb<span class="w"> </span>push<span class="w"> </span>&lt;local&gt;<span class="w"> </span>&lt;remote&gt;<span class="w"> </span><span class="c1"># push data</span>
+</pre></div>
+</div>
+<p>Recovery mode on Samsung Galaxy S9</p>
+<ol class="arabic simple">
+<li><p>Device is powered off</p></li>
+<li><p>Press and hold the Volume up + Bixby buttons</p></li>
+<li><p>While continuing to hold Volume up and Bixby buttons, press and hold the Power button until the device
+vibrates</p></li>
+</ol>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

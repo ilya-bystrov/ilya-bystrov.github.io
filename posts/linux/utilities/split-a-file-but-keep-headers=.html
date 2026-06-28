@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Split a File But Keep Headers</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="mk: Bash-based Automation Tool" href="../../makeit/makeit%3D.html" />
+    <link rel="prev" title="Networking: Wi-Fi for Browser and Ethernet for NFS" href="../networking/wifi-browser-ethernet-nfs%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2022-04-11 Mon
+Last modified:  2022-04-12 Tue
+</pre><section id="split-a-file-but-keep-headers">
+<h1>Split a File But Keep Headers<a class="headerlink" href="#split-a-file-but-keep-headers" title="Link to this heading">¶</a></h1>
+<p>A <a class="reference external" href="https://www.gnu.org/software/coreutils/manual/coreutils.html#split-invocation">split</a> is a powerful utility. It supports multiple splitting options.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>n</p></td>
+<td><p>generate n files based on current size of input</p></td>
+</tr>
+<tr class="row-even"><td><p>k/n</p></td>
+<td><p>output only kth of n to standard output</p></td>
+</tr>
+<tr class="row-odd"><td><p>l/n</p></td>
+<td><p>generate n files without splitting lines or records</p></td>
+</tr>
+<tr class="row-even"><td><p>l/k/n</p></td>
+<td><p>likewise but output only kth of n to stdout</p></td>
+</tr>
+<tr class="row-odd"><td><p>r/n</p></td>
+<td><p>like ‘l’ but use round robin distribution</p></td>
+</tr>
+<tr class="row-even"><td><p>r/k/n</p></td>
+<td><p>likewise but output only kth of n to stdout</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">l/n</span></code> option is almost suitable for splitting files in DSV (delimiter-separated values) format (csv, tsv,
+etc). The only problem is preserving headers.</p>
+<p>There are multiple good options to handle it:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.baeldung.com/linux/split-file-with-header">Baeldung: Split a File With the Header Line</a></p>
+<ul>
+<li><p>But <code class="docutils literal notranslate"><span class="pre">l/n</span></code> option doesn't work</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cannot</span> <span class="pre">determine</span> <span class="pre">file</span> <span class="pre">size</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/51420966#55764464">StackOverflow: Split CSV files into smaller files but keeping the headers?</a></p>
+<ul>
+<li><p>Cubersome: need to take care of the first split filename</p></li>
+</ul>
+</li>
+</ul>
+<p>I generalized an idea a little bit.
+<em>The question is how to provide the header for all splits except the first one?</em>
+Here is the bash-scipt called <code class="docutils literal notranslate"><span class="pre">split_filter_header</span></code> that should be in <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> (I use <code class="docutils literal notranslate"><span class="pre">~/bin</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span><span class="w"> </span>-o<span class="w"> </span>errexit
+<span class="nb">set</span><span class="w"> </span>-o<span class="w"> </span>pipefail
+<span class="nb">set</span><span class="w"> </span>-o<span class="w"> </span>nounset
+
+<span class="nv">flag</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$XDG_RUNTIME_DIR</span><span class="s2">/.split_filter_header_was_called&quot;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;--reset&#39;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">command</span><span class="w"> </span>rm<span class="w"> </span><span class="nv">$flag</span>
+<span class="w">  </span><span class="nb">exit</span>
+<span class="k">fi</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$flag</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+&gt;<span class="w"> </span><span class="nv">$flag</span>
+</pre></div>
+</div>
+<p>And splitting with any options can be performed in the following way:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>split_filter_header<span class="w"> </span>--reset<span class="w"> </span><span class="p">;</span><span class="w"> </span>split<span class="w"> </span>http.csv<span class="w"> </span>-d<span class="w"> </span>-n<span class="w"> </span>l/9<span class="w"> </span>--filter<span class="w"> </span><span class="s1">&#39;(split_filter_header http.csv; cat) &gt; $FILE&#39;</span><span class="w"> </span>http.csv.part
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">split_filter_header</span> <span class="pre">--reset</span></code> - no header for the first split</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">http.csv</span></code> - input file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-d</span></code> - numeric suffixes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">l/9</span></code> - split file into 9 pieces without splitting lines</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--filter</span> <span class="pre">'(split_filter_header</span> <span class="pre">http.csv;</span> <span class="pre">cat)</span> <span class="pre">&gt;</span> <span class="pre">$FILE'</span></code> - <strong>main part</strong>, prepend output with the header</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">http.csv.part</span></code> - split prefix</p></li>
+</ul>
+<p>The <strong>restriction</strong> is that you shouldn't run splitting in that way <em>in parallel</em>, because
+<code class="docutils literal notranslate"><span class="pre">split_filter_header</span> <span class="pre">--reset</span></code> call affects next <code class="docutils literal notranslate"><span class="pre">split_filter_header</span> <span class="pre">&lt;filename&gt;</span></code> call.</p>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

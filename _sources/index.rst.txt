@@ -1,0 +1,49 @@
+.. PROJECT NAME documentation master file, created by
+   sphinx-quickstart on Mon Nov 29 03:30:13 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. 
+   <!-- https://wdn.unl.edu/page-title-h1-best-practices -->
+  Welcome to PROJECT NAME's documentation!
+  ========================================
+   :caption: Contents:
+
+
+.. raw:: html
+
+   <style>
+     h1 {
+       font-size: 0;
+       width: 1px;
+       height: 1px;
+       display: inline-block;
+       overflow: hidden;
+       position: absolute!important;
+       border: 0!important;
+       padding: 0!important;
+       margin: 0!important;
+       clip: rect(1px,1px,1px,1px);
+     }
+   </style>
+
+I. Bystrov's Tech Notes
+=======================
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+   :titlesonly:
+
+   posts/**
+
+
+
+.. 
+  Indices and tables
+  ==================
+
+  + :ref:`genindex`
+  + :ref:`modindex`
+  + :ref:`search`
+

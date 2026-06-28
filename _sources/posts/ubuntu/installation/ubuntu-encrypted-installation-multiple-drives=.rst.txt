@@ -1,0 +1,577 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2019-04-20 Sat
+  Last modified:  2022-02-28 Mon
+  </pre>
+
+###################################################
+Ubuntu: Encrypted installation with multiple drives
+###################################################
+
+I've got EasyNote-LV11HC with 2 SATA slots with 2 drives:
+
+
+* 750G (root, home, files)
+
+* 500G (files)
+
+I bought 2TB drive (2TB - 2.0 TB ATA ST2000LX001-1RG1) and want to use the
+following drives:
+
+
+* 750G (root, home)
+
+* 2T (files)
+
+with encryption.
+
+Also I'd like to save some data from drives.
+
+Important notes
+===============
+
+
+* I use legacy BIOS mode instead of UEFI mode.
+
+* Make sure you have a copy of important data before installation.
+
+How it should look
+==================
+
+.. code-block:: none
+  :class: diagram
+
+                          .------..------.            .--------------.    ^                     ^
+                          | root || swap |            | files        |    |  Logical volumes    |
+                          '------''------'            '--------------'    v                     |
+                          .--------------.            .--------------.    ^                     |
+                          | ubuntu-vg    |            | files-vg     |    |  Volume groups      |  LVM
+                          '--------------'            '--------------'    v                     |
+          ^               .--------------.            .--------------.    ^                     |
+    LUKS  |               | LUKS         |            | LUKS         |    |  Physical volumes   |
+          |               | container    |            | container    |    |                     |
+          v               '--------------'            '--------------'    v                     v
+          ^   .-----------.--------------..-----------.--------------.
+          |   |           | logical      ||           | logical      |
+          |   |           | partition    ||           | partition    |
+     MBR  |   |           '--------------'|           '--------------'
+          |   | primary   | extended     || primary   | extended     |
+          |   | partition | partition    || partition | partition    |
+          v   '-----------'--------------''-----------'--------------'
+          ^   .--------------------------..--------------------------.
+  Drives  |   | 750G drive               || 2T drive                 |
+          v   '--------------------------''--------------------------'
+
+
+Abbreviations for further usage:
+
+
+* PV - Physical Volume
+
+* VG - Volume Group
+
+* LV - Logical Volume
+
+Installation and configuration
+==============================
+
+Install Ubuntu
+--------------
+
+Power off laptop, attach only 2TB drive.
+
+Install Ubuntu with "Encrypt" and "Use LVM" options.
+
+Output log:
+
+.. code-block:: none
+
+  LVM VG ubuntu-vg, LV root as ext4
+  LVM VG ubuntu-vg, LV swap_1 as swap
+  partition #1 of SCSI4(0,0,0)(sdb) as ESP
+
+
+USB boot error (gfxboot.c32:not a valid COM32R image)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ubuntu can fail to boot with above error. Here is the workaround ( :askubuntu:`Ask Ubuntu <486602>`):
+
+.. code-block:: none
+
+  Press Tab - Type 'live' or 'live install' - Press Enter
+
+Run Ubuntu after installation
+-----------------------------
+
+Check that Ubuntu boots successfully.
+
+``df -h`` shows that less than 6G occupied on "root" LV.
+
+Run Ubuntu Live from CD/USB with additional drive
+-------------------------------------------------
+
+Power off laptop and attach 750G drive.
+
+Run Ubuntu Live.
+
+Check drives using ``fdisk -l``
+
+Here is the output for 2T drive
+
+.. code-block:: none
+
+  Disk /dev/sdb: 1.8 TiB, 2000398934016 bytes, 3907029168 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 4096 bytes
+  I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+  Disklabel type: dos
+  Disk identifier: 0x9fdd7987
+
+  Device     Boot   Start        End    Sectors  Size Id Type
+  /dev/sdb1  *       2048    1499135    1497088  731M 83 Linux
+  /dev/sdb2       1501182 3907028991 3905527810  1.8T  5 Extended
+  /dev/sdb5       1501184 3907028991 3905527808  1.8T 83 Linux
+
+  Partition 2 does not start on physical sector boundary.
+
+``/dev/sdb5`` is encrypted partition. Open it.
+
+Need to specify LUKS container name, I use first 4 letters of UUID as a suffix.
+
+.. code-block:: none
+
+  # ls -al /dev/disk/by-uuid/ | grep sdb5
+
+Container name: luks-ddb2
+
+.. code-block:: none
+
+  # cryptsetup -v luksOpen /dev/sdb5 luks-ddb2
+  Enter passphrase for /dev/sdb5: Key slot 0 unlocked.
+  Command successful.
+
+LVM configuration can be checked using following 3 commands: 
+
+
+* ``pvs`` - info about PVs
+
+* ``vgs`` - info about VGs
+
+* ``lvs`` - info about LVs
+
+.. code-block:: none
+
+  # pvs
+    PV                    VG        Fmt  Attr PSize  PFree
+    /dev/mapper/luks-ddb2 ubuntu-vg lvm2 a--  <1.82t    0 
+  # vgs
+    VG        #PV #LV #SN Attr   VSize  VFree
+    ubuntu-vg   1   2   0 wz--n- <1.82t    0 
+  # lvs
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    root   ubuntu-vg -wi-a-----  <1.82t                                                    
+    swap_1 ubuntu-vg -wi-a----- 976.00m                                                    
+
+Shrink root logical volume
+--------------------------
+
+Check space usage:
+
+.. code-block:: none
+
+  # mount /dev/mapper/ubuntu--vg-root /mnt/
+  # df -h | grep /mnt
+  /dev/mapper/ubuntu--vg-root  1.8T  5.4G  1.7T   1% /mnt
+  # umount /mnt 
+
+I prefer use vi mode in bash and vim as a default editor (optional)
+
+.. code-block:: none
+
+  # set -o vi
+  # export EDITOR=vim
+
+Shrink root logical volume from 1.8T to 12G. 
+
+.. code-block:: none
+
+  # e2fsck -f /dev/ubuntu-vg/root 
+  e2fsck 1.44.1 (24-Mar-2018)
+  Pass 1: Checking inodes, blocks, and sizes
+  Pass 2: Checking directory structure
+  Pass 3: Checking directory connectivity
+  Pass 4: Checking reference counts
+  Pass 5: Checking group summary information
+  /dev/ubuntu-vg/root: 178713/121987072 files (0.2% non-contiguous), 9315370/487940096 blocks
+
+  # resize2fs -p /dev/ubuntu-vg/root 12G
+  resize2fs 1.44.1 (24-Mar-2018)
+  Resizing the filesystem on /dev/ubuntu-vg/root to 3145728 (4k) blocks.
+  Begin pass 2 (max = 1268084)
+  Relocating blocks             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  Begin pass 3 (max = 14891)
+  Scanning inode table          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  Begin pass 4 (max = 24875)
+  Updating inode references     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  The filesystem on /dev/ubuntu-vg/root is now 3145728 (4k) blocks long.
+
+  # lvresize -L 12G /dev/ubuntu-vg/root 
+    WARNING: Reducing active logical volume to 12.00 GiB.
+    THIS MAY DESTROY YOUR DATA (filesystem etc.)
+  Do you really want to reduce ubuntu-vg/root? [y/n]: y
+    Size of logical volume ubuntu-vg/root changed from <1.82 TiB (476504 extents) to 12.00 GiB (3072 extents).
+    Logical volume ubuntu-vg/root successfully resized.
+    
+  # e2fsck -f /dev/ubuntu-vg/root 
+  e2fsck 1.44.1 (24-Mar-2018)
+  Pass 1: Checking inodes, blocks, and sizes
+  Pass 2: Checking directory structure
+  Pass 3: Checking directory connectivity
+  Pass 4: Checking reference counts
+  Pass 5: Checking group summary information
+  /dev/ubuntu-vg/root: 178713/786432 files (0.2% non-contiguous), 1697169/3145728 blocks
+
+Create new LV
+-------------
+
+Create new "files" LV.
+
+.. code-block:: none
+
+  # lvs
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    root   ubuntu-vg -wi-a-----  12.00g                                                    
+    swap_1 ubuntu-vg -wi-a----- 976.00m                                                    
+
+  # lvcreate -l 100%FREE -n files ubuntu-vg
+    Logical volume "files" created.
+
+  # mkfs.ext4 /dev/mapper/ubuntu--vg-files
+
+  # lvs
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    files  ubuntu-vg -wi-a-----  <1.81t                                                    
+    root   ubuntu-vg -wi-a-----  12.00g                                                    
+    swap_1 ubuntu-vg -wi-a----- 976.00m                                                    
+
+Rename default LUKS container
+-----------------------------
+
+Ubuntu provides default name "sdx_crypt" for LUKS container.
+It can be found in '/etc/crypttab'.
+
+Because there will be 2 encrypted volumes I prefer to rename it from 
+``sda5_crypt`` to ``luks-ddb2`` (ddb2 - is first 4 digits of UUID).
+Note that this name used by grub configuration, so grub config should be also updated as shown below.
+
+.. code-block:: none
+
+  # mount /dev/mapper/ubuntu--vg-root /mnt/
+  # mount /dev/sdb1 /mnt/boot/
+  # for i in /dev/ /dev/pts /proc /sys /run; do mount -B $i /mnt$i; done
+  # chroot /mnt
+  # <edit /etc/crypttab - rename sda5_crypt to luks-ddb2>
+  # cat /etc/crypttab 
+  luks-ddb2 UUID=ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250 none luks,discard
+  # dmsetup rename sda5_crypt luks-ddb2
+  device-mapper: rename ioctl on sda5_crypt  failed: Device or resource busy
+  Command failed
+  # <edit /etc/fstab  - add "files" LV>
+  # cat /etc/fstab | grep files
+  /dev/mapper/ubuntu--vg-files /home/files ext4 defaults 0 2
+  # <edit /etc/default/grub - optional - changing value of GRUB_CMDLINE_LINUX_DEFAULT from "quite splash" to ""
+  # update-initramfs -u -k all
+  update-initramfs: Generating /boot/initrd.img-4.15.0-43-generic
+  update-initramfs: Generating /boot/initrd.img-4.15.0-29-generic
+  # shutdown -r now
+
+Copy data to 2T drive
+---------------------
+
+Attach any drive (procedure below can be repeated for multiple drives).
+After reboot following prompt for passphrase should appear:
+
+.. code-block:: none
+
+  Please unlock disk luks-ddb2 
+
+"ubuntu-vg" VG has following structure:
+
+
+* root     12.00g                                                    
+
+* swap_1  976.00m                                                    
+
+* files    <1.81t                                                    
+
+Copy data from 750G drive to "files" LV.
+Power off.
+
+Now all needed data is on 2T drive,
+750G drive can be used for "root" LV and "swap" LV.
+
+Create partition table on 750G drive
+------------------------------------
+
+Attach (or make sure that it is attached) 750G drive.
+Run Ubuntu Live.
+On 750G drive create new DOS partition table using ``fdisk``.
+
+Output:
+
+.. code-block:: none
+
+  # fdisk -l /dev/sda
+  Disk /dev/sda: 698.7 GiB, 750156374016 bytes, 1465149168 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 4096 bytes
+  I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+  Disklabel type: dos
+  Disk identifier: 0x2c338ab6
+
+  Device     Boot   Start        End    Sectors   Size Id Type
+  /dev/sda1          2048    1497088    1495041   730M 83 Linux
+  /dev/sda2       1499136 1465149167 1463650032 697.9G  5 Extended
+  /dev/sda5       1501184 1465149167 1463647984 697.9G 83 Linux
+
+Create LUKS container
+---------------------
+
+Create LUKS container on /dev/sda5 with key file.
+
+.. code-block:: none
+
+  # echo '<key-file-content>' > <key.file>
+  # cryptsetup -v luksFormat /dev/sda5 <key.file>
+  WARNING!
+  ========
+  This will overwrite data on /dev/sda5 irrevocably.
+
+  Are you sure? (Type uppercase yes): YES
+  Command successful.
+
+Notes
+~~~~~
+
+
+* This <key.file> should be put later on "root" LV.
+
+* You can add multiple options for opening container including passphrase.
+
+Add LUKS container to PVs
+-------------------------
+
+Open LUKS container on ``/dev/sdb5`` (created during Ubuntu installation):
+
+.. code-block:: none
+
+  # blkid -olist | sed -n '1p;/.*sdb5.*/p'
+  device     fs_type label    mount point    UUID
+  /dev/sdb5  crypto_LUKS      (not mounted)  ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250
+
+  # cryptsetup -v luksOpen /dev/sdb5 luks-ddb2
+  Enter passphrase for /dev/sdb5: 
+  Key slot 0 unlocked.
+  Command successful.
+
+Open LUKS container on ``/dev/sdb5`` (recently created):
+
+.. code-block:: none
+
+  # blkid -olist | sed -n '1p;/.*sda5.*/p'
+  device     fs_type label    mount point    UUID
+  /dev/sda5  crypto_LUKS      (not mounted)  d3cfea2b-1937-4601-8cea-ad332c692931
+
+  # cryptsetup -v luksOpen /dev/sda5 luks-d3cf --key-file key.file 
+  Key slot 0 unlocked.
+  Command successful.
+
+Put <key.file> somewhere on "root" LV for further usage (Command doesn't shown).
+
+Add LUKS container to PVs:
+
+.. code-block:: none
+
+  # pvs
+    PV                    VG        Fmt  Attr PSize  PFree
+    /dev/mapper/luks-dbb2 ubuntu-vg lvm2 a--  <1.82t    0 
+
+  # pvcreate /dev/mapper/luks-d3cf 
+    Physical volume "/dev/mapper/luks-d3cf" successfully created.
+
+  # pvs
+    PV                    VG        Fmt  Attr PSize    PFree   
+    /dev/mapper/luks-d3cf           lvm2 ---  <697.92g <697.92g
+    /dev/mapper/luks-ddb2 ubuntu-vg lvm2 a--    <1.82t       0 
+
+Extend ubuntu-vg volume group
+-----------------------------
+
+.. code-block:: none
+
+  # vgs
+    VG        #PV #LV #SN Attr   VSize  VFree
+    ubuntu-vg   1   3   0 wz--n- <1.82t    0 
+
+  # vgextend -v ubuntu-vg /dev/mapper/luks-d3cf 
+      Wiping internal VG cache
+      Wiping cache of LVM-capable devices
+      Wiping signatures on new PV /dev/mapper/luks-d3cf.
+      Archiving volume group "ubuntu-vg" metadata (seqno 7).
+      Adding physical volume '/dev/mapper/luks-d3cf' to volume group 'ubuntu-vg'
+      Volume group "ubuntu-vg" will be extended by 1 new physical volumes
+      Creating volume group backup "/etc/lvm/backup/ubuntu-vg" (seqno 8).
+    Volume group "ubuntu-vg" successfully extended
+
+  # vgs
+    VG        #PV #LV #SN Attr   VSize VFree   
+    ubuntu-vg   2   3   0 wz--n- 2.50t <697.92g
+
+Move "root" and "swap" LVs to another PV
+----------------------------------------
+
+.. code-block:: none
+
+  # lvs -o+devices
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert Devices                      
+    files  ubuntu-vg -wi-a-----  <1.81t                                                     /dev/mapper/luks-ddb2(3072)  
+    root   ubuntu-vg -wi-a-----  12.00g                                                     /dev/mapper/luks-ddb2(0)     
+    swap_1 ubuntu-vg -wi-a----- 976.00m                                                     /dev/mapper/luks-ddb2(476504)
+
+  # pvmove -v -n /dev/ubuntu-vg/root /dev/mapper/luks-ddb2 /dev/mapper/luks-d3cf 
+  # pvmove -v -n /dev/ubuntu-vg/swap_1 /dev/mapper/luks-ddb2 /dev/mapper/luks-d3cf 
+
+  # lvs -o+devices
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert Devices                    
+    files  ubuntu-vg -wi-a-----  <1.81t                                                     /dev/mapper/luks-ddb2(3072)
+    root   ubuntu-vg -wi-a-----  12.00g                                                     /dev/mapper/luks-d3cf(0)   
+    swap_1 ubuntu-vg -wi-a----- 976.00m                                                     /dev/mapper/luks-d3cf(3072)
+
+Split "ubuntu-vg" VG into "ubuntu-vg" VG and "files-vg" VG
+----------------------------------------------------------
+
+After this operation "files-vg" VG will be created.
+
+.. code-block:: none
+
+  # vgchange -v ubuntu-vg -a n
+  # vgsplit -v ubuntu-vg files-vg /dev/mapper/luks-ddb2 
+  # vgchange -v ubuntu-vg -a y
+
+Now each PV have own VG:
+
+
+* 750G - ubuntu-vg
+
+* 2T - files-vg
+
+Using one VG per drive is safe: I can use drives independently.
+
+Resize "root" LV
+----------------
+
+Resize "root" LV from 12G to all available space:
+
+.. code-block:: none
+
+  # e2fsck -f /dev/ubuntu-vg/root
+  # lvresize -v -l 100%FREE /dev/ubuntu-vg/root
+  # e2fsck -f /dev/ubuntu-vg/root
+  # resize2fs /dev/ubuntu-vg/root 
+  # e2fsck -f /dev/ubuntu-vg/root
+
+
+LVM Report:
+
+.. code-block:: none
+
+  # pvs
+    PV                    VG        Fmt  Attr PSize    PFree 
+    /dev/mapper/luks-d3cf ubuntu-vg lvm2 a--  <697.92g 12.00g
+    /dev/mapper/luks-ddb2 files-vg  lvm2 a--    <1.82t 12.95g
+  # vgs
+    VG        #PV #LV #SN Attr   VSize    VFree 
+    files-vg    1   1   0 wz--n-   <1.82t 12.95g
+    ubuntu-vg   1   2   0 wz--n- <697.92g 12.00g
+  # lvs 
+    LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    files  files-vg  -wi-------  <1.81t                                                    
+    root   ubuntu-vg -wi-a----- 684.96g                                                    
+    swap_1 ubuntu-vg -wi-a----- 976.00m   
+
+Some space (12G + 12G) remains unallocated. I leaved it as is.
+
+Configure ``/etc/crypttab``, ``/etc/fstab``, install GRUB on 750G drive
+-----------------------------------------------------------------------
+
+Update ``/etc/crypttab`` and ``/etc/fstab`` in the following way:
+
+
+* add line for LUKS container on 750G drive in ``/etc/crypttab``;
+  <key.file> should be stored somewhere in "root" LV (like /root/<key.file>)
+
+* change UUID for /boot (switch to  ~700M primary partition of 750G drive) in 
+  ``/etc/fstab``
+
+* change ``/dev/mapper/ubuntu--vg-files`` to ``/dev/mapper/files--vg-files in 
+  /etc/fstab``
+
+.. code-block:: none
+
+  # cat /etc/crypttab 
+  luks-d3cf UUID=d3cfea2b-1937-4601-8cea-ad332c692931 none luks,discard
+  luks-ddb2 UUID=ddb25130-e40f-4f7f-bc2c-dbdf5dd3e250 <key.file> luks,discard
+
+.. code-block:: none
+
+  # cat /etc/fstab 
+
+  /dev/mapper/ubuntu--vg-root /               ext4    errors=remount-ro 0       1
+  UUID=c1917be1-958c-499e-bd40-3ce4ec25c03e /boot           ext4    defaults        0       2
+  /dev/mapper/ubuntu--vg-swap_1 none            swap    sw              0       0
+  /dev/mapper/files--vg-files /home/files ext4 defaults 0 2
+
+Install GRUB on 750G drive
+--------------------------
+
+I faced with some difficulties during GRUB installation and I don't know what 
+was the final solution. Probably, purging grub related packages and 
+reinstalling solved problem. So, some links in case of issues: 
+
+
+* `Grub2/Installing - Community Help Wiki <https://help.ubuntu.com/community/Grub2/Installing#via_the_LiveCD_terminal>`_
+
+* `Boot-Repair - Community Help Wiki <https://help.ubuntu.com/community/Boot-Repair>`_
+
+* `How to Use GRUB Rescue on Ubuntu 18.04 LTS – Linux Hint <https://linuxhint.com/grub_rescue_ubuntu_1804>`_
+
+* `RUS - GRUB (Русский) - ArchWiki <https://wiki.archlinux.org/index.php/GRUB_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)>`_
+
+* `RUS - GRUB - загрузчик системы | Русскоязычная документация по Ubuntu <https://help.ubuntu.ru/wiki/grub>`_
+
+Tips
+====
+
+In order to install ``sshpass`` on Ubuntu Live I had to add 
+
+.. code-block:: none
+
+  deb http://archive.ubuntu.com/ubuntu/ bionic universe 
+
+into ``/etc/apt/sources.list`` .
+
+Links
+=====
+
+
+* `How To Use LVM To Manage Storage Devices on Ubuntu 18.04 | DigitalOcean <https://www.digitalocean.com/community/tutorials/how-to-use-lvm-to-manage-storage-devices-on-ubuntu-18-04>`_
+
+* :unixstex:`How to change the name an encrypted full-system partition - Unix & Linux Stack Exchange <81011>`
+
+* :askubuntu:`How do I install 18.04 using full disk encryption with two drives (SSD/HDD) - Ask Ubuntu <1034079>`
+
+* :superuser:`Is there a simple way to move/copy a logical volume from one volume group to another - Super User <217307>`
+
+* `ManualFullSystemEncryption - Community Wiki <https://help.ubuntu.com/community/ManualFullSystemEncryption>`_
+

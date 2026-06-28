@@ -1,0 +1,148 @@
+.. raw:: html
+
+  <pre class="createdmodified">
+  Created:        2017-05-30 Tue
+  Last modified:  2022-02-28 Mon
+  </pre>
+
+
+######################################
+Docker Daemon: Remapping UIDs and GIDs
+######################################
+
+Remapping UIDs and GIDs can be useful when accessing bind-mounts.
+
+How it works by default
+=======================
+
+::
+
+  > uname -a
+  Linux x 4.4.0-36-generic #55~14.04.1-Ubuntu SMP Fri Aug 12 11:49:30 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+  > dockerd -v
+  Docker version 17.05.0-ce, build 89658be
+
+My User (i) UID and GID is 1000.
+I create file *host-file* inside */tmp/test/bind-mount-dir* directory.
+
+Run docker 
+
+::
+
+  > docker run --rm -it -v /tmp/test/bind-mount-dir/:/mount -w /mount busybox
+  /mount >> id
+  uid=0(root) gid=0(root) groups=10(wheel)
+  /mount >> touch file-created-from-container-by-root
+  /mount >> adduser -u 1000 user
+  /mount >> su user
+  /mount >> touch file-created-from-container-by-user
+  /mount >> ls -n * # output truncated
+  0        0                file-created-from-container-by-root
+  1000     1000             file-created-from-container-by-user
+  1000     1000             host-file
+
+After that I get the same UID and GID in */tmp/test/bind-mount-dir* on host.
+
+Remapping
+=========
+
+*/etc/subuid* and */etc/subgid* allows to remap container UID and GID.
+
+There are three fields in /etc/subuid file
+
+
+* login name or UID
+
+* numerical subordinate user ID
+
+* numerical subordinate user ID count
+
+Suppose */etc/subuid* contains
+
+::
+  
+  i:100000:65536
+
+It means that root(id=0) inside container will be mapped to id=100000 host user.
+And in the same way for next 65535 users. So user(uid=1000) inside container will be mapped to uid=101000 host user.
+
+Note that */etc/subuid* can contains multiple lines for same login name.
+Suppose I'd like to map container user (uid=1000) to uid=1010 host user and 
+don't remap root user.
+
+For that goal */etc/subuid*  will look as follows:
+
+::
+  
+  i:0:1000 # container users with uid from 0 to 999 remaps to host users with same uid
+  i:1010:65536 # container users with uid from 1000 remaps to host users with uid = container_uid + 10
+
+The same mapping should be in */etc/subgid*.
+
+Test it
+=======
+
+Make sure user (in my case i(uid=1000, gid=1000) presents in */etc/passwd* and */etc/group*.
+Put mapping
+
+:: 
+
+  i:0:1000
+  i:1010:65536
+
+in */etc/subuid* and */etc/subgid*.
+
+Configure docker daemon, I do it using */etc/docker/daemon.json*:
+
+::
+
+  > cat /etc/docker/daemon.json
+  {
+    "userns-remap": "i"
+  }
+
+Restart docker.
+Note that docker create separate internal directory in case of remapping and all previous containers and images are inaccessible.
+
+Clear and make */tmp/test/bind-mount-dir* accessible for all users (*chmod a+rwx*).
+
+Run docker.
+
+::
+
+  > docker run --rm -it -v /tmp/test/bind-mount-dir/:/mount -w /mount busybox
+  /mount >> touch file-created-from-container-by-root
+  /mount >> adduser -u 1000 user
+  /mount >> su user
+  /mount >> touch file-created-from-container-by-user
+  /mount >> ls -n * # output truncated
+  0        0                file-created-from-container-by-root
+  1000     1000             file-created-from-container-by-user
+
+In the same time on the host
+
+::
+  
+  > ls -n * # output truncated
+  0        0                file-created-from-container-by-root
+  1010     1010             file-created-from-container-by-user
+
+Summary
+=======
+
+In short, docker remapping allows to increase container UID and GID during access to the host.
+
+Also note that remapping have some restrictions. For example it's incompatible 
+with **--network host** *docker run* option.
+
+Links
+=====
+
+
+* `Introduction to User Namespaces in Docker Engine <https://success.docker.com/KBase/Introduction_to_User_Namespaces_in_Docker_Engine>`_
+
+* `Docker for your users - Introducing user namespace <https://blog.yadutaf.fr/2016/04/14/docker-for-your-users-introducing-user-namespace>`_
+
+* `Reference: dockerd (contains info about restrictions) <https://docs.docker.com/engine/reference/commandline/dockerd/#user-namespace-known-restrictions>`_
+
+
