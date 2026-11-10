@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gnome Tracker 3: Removal</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Chat Support for SGPT" href="../gpt/sgpt/chat-support-for-sgpt%3D.html" />
+    <link rel="prev" title="Git: Treating Modified Files as Unchanged" href="../git/git-treating-modified-files-as-unchanged%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2024-09-10 Tue
+Last modified:  2025-05-07 Wed
+</pre><section id="gnome-tracker-3-removal">
+<h1>Gnome Tracker 3: Removal<a class="headerlink" href="#gnome-tracker-3-removal" title="Link to this heading">¶</a></h1>
+<section id="idea">
+<h2>Idea<a class="headerlink" href="#idea" title="Link to this heading">¶</a></h2>
+<p>It's not possible to remove or purge &quot;tracker&quot; packages because Gnome is dependent on them.
+However, the &quot;tracker&quot; packages can be easily replaced by fake empty packages.</p>
+</section>
+<section id="tracker-overview">
+<h2>Tracker Overview<a class="headerlink" href="#tracker-overview" title="Link to this heading">¶</a></h2>
+<p>From <a class="reference external" href="https://tracker.gnome.org/overview/">https://tracker.gnome.org/overview/</a></p>
+<blockquote>
+<div><p>It’s not designed to be used directly by desktop users, but it provides a commandline tool named tracker3 for the adventurous.</p>
+<p>...</p>
+<p>Tracker allows your application to instantly perform full-text searches across all documents. This feature is used by
+the ‘search’ bar in GNOME Files, for example.</p>
+<p>...</p>
+<p>Tracker 3 is divided into two subprojects:</p>
+<ul class="simple">
+<li><p>Tracker SPARQL, a lightweight database library built around SQLite.</p></li>
+<li><p>Tracker Miners, a set of daemons which crawl the filesystem and extract metadata from many types of file to provide a system-wide search service.</p></li>
+</ul>
+<p>...</p>
+<p>Related projects</p>
+<ul class="simple">
+<li><p>Xapian provides similar functionality to Tracker Miner FS. It focuses more on scalability and less on having a
+lightweight footprint. Unlike Tracker, it doesn’t support SPARQL or provide a Linked Data endpoint.</p></li>
+<li><p>Baloo is a metadata and search framework by KDE, implemented using Xapian.</p></li>
+<li><p>Recoll is a cross-platform desktop search application powered by Xapian.</p></li>
+<li><p>Apache Lucene + Solr is a search engine which targets very large-scale workloads. It has a much heavier footprint compared to Tracker.</p></li>
+<li><p>ripgrep-all is a commandline tool that can search for text within many types of file, and caches extracted data between runs.</p></li>
+<li><p>See the Wikipedia article on Desktop search for more information.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="tracker-packages-on-debian-12">
+<h2>Tracker Packages on Debian 12<a class="headerlink" href="#tracker-packages-on-debian-12" title="Link to this heading">¶</a></h2>
+<p>The packages were discovered by running the command <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">search</span> <span class="pre">'metadata</span> <span class="pre">database,</span> <span class="pre">indexer</span> <span class="pre">and</span> <span class="pre">search</span> <span class="pre">tool'</span></code> and
+through the autocompete of <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">show</span> <span class="pre">tracker&lt;TAB&gt;</span></code>.</p>
+<p>List of packages:</p>
+<ul class="simple">
+<li><p>libtracker-doc</p></li>
+<li><p>libtracker-sparql-3.0-0</p></li>
+<li><p>libtracker-sparql-3.0-dev</p></li>
+<li><p>tracker</p></li>
+<li><p>tracker-extract</p></li>
+<li><p>tracker-miner-fs</p></li>
+<li><p>tracker-test-utils</p></li>
+</ul>
+<p>4 of them were installed.</p>
+<ul class="simple">
+<li><p>libtracker-sparql-3.0-0</p></li>
+<li><p>tracker</p></li>
+<li><p>tracker-extract</p></li>
+<li><p>tracker-miner-fs</p></li>
+</ul>
+<p>3 of them need to be replaced.</p>
+<ul class="simple">
+<li><p>tracker</p></li>
+<li><p>tracker-extract</p></li>
+<li><p>tracker-miner-fs</p></li>
+</ul>
+</section>
+<section id="packages-replacement">
+<h2>Packages replacement<a class="headerlink" href="#packages-replacement" title="Link to this heading">¶</a></h2>
+<p>The procedure should be repeated for all 3 packages.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dpkg<span class="w"> </span>-L<span class="w"> </span>tracker-miner-fs<span class="w"> </span>&gt;<span class="w"> </span>tracker-miner-fs-files
+$<span class="w"> </span>apt<span class="w"> </span>show<span class="w"> </span>tracker-miner-fs<span class="w"> </span>&gt;<span class="w"> </span>tracker-miner-fs
+$<span class="w"> </span>equivs-build<span class="w"> </span>tracker-miner-fs
+$<span class="w"> </span>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>tracker-miner-fs_3.4.3-1_all.deb
+$<span class="w"> </span><span class="c1"># check the deletion of files in tracker-miner-fs-files</span>
+$<span class="w"> </span><span class="c1"># delete manually if needed</span>
+$<span class="w"> </span><span class="c1"># commands to check: 1. tac tracker-miner-fs-files | xargs file {}</span>
+$<span class="w"> </span><span class="c1">#                    2. tac tracker-miner-fs-files | xargs file {} | grep -i &#39;text\|data&#39;</span>
+</pre></div>
+</div>
+<p>I only had to manually delete one file in my case: <code class="docutils literal notranslate"><span class="pre">/etc/xdg/autostart/tracker-miner-fs-3.desktop</span></code>.</p>
+<p>Put newly installed packages on hold.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>tracker<span class="w"> </span>tracker-extract<span class="w"> </span>tracker-miner-fs
+</pre></div>
+</div>
+<section id="note-libtracker-sparql-3-0-0">
+<h3>Note: libtracker-sparql-3.0-0<a class="headerlink" href="#note-libtracker-sparql-3-0-0" title="Link to this heading">¶</a></h3>
+<p>Replacement of <code class="docutils literal notranslate"><span class="pre">libtracker-sparql-3.0-0</span></code> breaks <code class="docutils literal notranslate"><span class="pre">nautilus</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>nautilus
+nautilus:<span class="w"> </span>error<span class="w"> </span><span class="k">while</span><span class="w"> </span>loading<span class="w"> </span>shared<span class="w"> </span>libraries:<span class="w"> </span>libtracker-sparql-3.0.so.0:<span class="w"> </span>cannot<span class="w"> </span>open<span class="w"> </span>shared<span class="w"> </span>object<span class="w"> </span>file:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+</pre></div>
+</div>
+</section>
+</section>
+<section id="remove-dirs">
+<h2>Remove dirs<a class="headerlink" href="#remove-dirs" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.local/share/tracker</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/tracker</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/tracker3</span></code></p></li>
+</ul>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>While it may not be possible to completely remove or purge the &quot;tracker&quot; packages due to Gnome's dependency on them,
+they can be replaced with fake empty packages to effectively disable their functionality.</p>
+</section>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

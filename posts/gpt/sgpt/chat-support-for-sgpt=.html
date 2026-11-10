@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chat Support for SGPT</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Hadoop: HDFS Quotas" href="../../hadoop/hdfs-quota%3D.html" />
+    <link rel="prev" title="Gnome Tracker 3: Removal" href="../../gnome/gnome-tracker-3-removal%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2023-12-06 Wed
+Last modified:  2023-12-26 Tue
+</pre><section id="chat-support-for-sgpt">
+<h1>Chat Support for SGPT<a class="headerlink" href="#chat-support-for-sgpt" title="Link to this heading">¶</a></h1>
+<p>From <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
+<blockquote>
+<div><p>SGPT is a command-line tool that provides a convenient way to interact with
+OpenAI models, enabling users to run queries, generate shell commands and
+produce code directly from the terminal.</p>
+</div></blockquote>
+<p>There is no chat support yet <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, but it can be achieved via bash one-liner using <cite>rlwrap</cite> <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> and an input loop:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rlwrap<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo ▶; while read in; do [[ -n &quot;$in&quot; ]] &amp;&amp; echo ■ &amp;&amp; sgpt --chat chat_name &quot;$in&quot; &amp;&amp; echo ▶; done&#39;</span>
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>▶
+mass of sun
+■
+The mass of the Sun is approximately 1.989 x 10^30 kilograms, or about 330,000 times the mass of Earth. It contains about 99.86% of the total mass of the Solar System and is by far the most dominant object in it. The Sun&#39;s mass is composed mostly of hydrogen (~74%) and helium (~24%), with the remaining 2% consisting of heavier elements.
+▶
+convert to earth masses
+■
+To convert the mass of the Sun to Earth masses, you can simply divide the Sun&#39;s mass by the mass of the Earth. Given that:
+
+
+A. The Sun&#39;s mass is approximately 1.989 x 10^30 kilograms.
+
+B. The Earth&#39;s mass is approximately 5.972 x 10^24 kilograms.
+
+Using these values, you can calculate how many Earth masses the Sun is:
+
+(1.989 x 10^30 kg) / (5.972 x 10^24 kg/Earth) = approximately 333,000 Earth masses
+
+So the Sun is about 333,000 times more massive than the Earth.
+▶
+</pre></div>
+</div>
+<p>Auto-generation of session names and notification support can be added:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">shopt</span><span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>errexit
+<span class="nb">shopt</span><span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>pipefail
+<span class="nb">shopt</span><span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>nounset
+<span class="nb">shopt</span><span class="w"> </span>-s<span class="w"> </span>inherit_errexit
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">CHAT</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y%m%d%H%M%S%3N&#39;</span><span class="k">)</span><span class="s2">_</span><span class="k">$(</span>tr<span class="w"> </span>-dc<span class="w"> </span><span class="s1">&#39;A-Za-z&#39;</span><span class="w"> </span>&lt;/dev/urandom<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">3</span><span class="k">)</span><span class="s2">&quot;</span>
+rlwrap<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo ▶; while read in; do [[ -n &quot;$in&quot; ]] &amp;&amp; echo ■ &amp;&amp; sgpt --chat &quot;$CHAT&quot; &quot;$in&quot; &amp;&amp; echo ▶ &amp;&amp; notify-send --urgency=low 💬 ; done&#39;</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://github.com/tbckr/sgpt">GitHub - tbckr/sgpt</a></p>
+</aside>
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://github.com/tbckr/sgpt/issues/111">Interactive chat session · Issue #111 · tbckr/sgpt</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://github.com/hanslub42/rlwrap">GitHub - hanslub42/rlwrap</a></p>
+</aside>
+</aside>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

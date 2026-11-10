@@ -1,0 +1,39 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+  Created:        2023-05-10 Wed 
+  Last modified:  2023-06-05 Mon
+  </pre>
+
+OpenLineage / Marquez
+=====================
+
+Marquez [#]_ [#]_ is an open source implementation of the OpenLineage [#]_ .
+
+
+* Event specification [#]_
+
+* Integrations (automatic collection of metadata) from Spark, Airflow, dbt [#]_
+
+* Visualization [#]_
+
+* Metadata API [#]_
+
+* Column-level lineage support (so far only Spark) [#]_
+
+* AWS Big Data Blog: Automate data lineage on Amazon MWAA with OpenLineage [#]_
+
+
+.. rubric:: References
+
+.. [#] https://marquezproject.github.io/marquez/
+.. [#] https://marquezproject.ai/
+.. [#] https://openlineage.io/
+.. [#] https://github.com/OpenLineage/OpenLineage/blob/main/spec/OpenLineage.md
+.. [#] https://openlineage.io/docs/integrations/about
+.. [#] https://marquezproject.ai/quickstart/#view-dataset-metadata
+.. [#] https://marquezproject.github.io/marquez/openapi.html#operation/getLineage
+.. [#] https://openlineage.io/blog/column-lineage/
+.. [#] https://aws.amazon.com/blogs/big-data/automate-data-lineage-on-amazon-mwaa-with-openlineage/
+
+

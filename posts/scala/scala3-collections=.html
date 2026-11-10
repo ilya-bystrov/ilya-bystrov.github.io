@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scala 3: Collections</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=50bd6730"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/customization.js?v=b5d4a532"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Scala 3: Elegant statements" href="scala3-elegant-statements%3D.html" />
+    <link rel="prev" title="Writing a Resume Key Points" href="../resume/linkedin-learning/writing-a-resume%3D.html" />
+
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+<!-- https://css-tricks.com/emoji-as-a-favicon/ -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  </head><body>
+
+
+  <style>
+    div.header {
+
+      width: 940px;
+      margin: 20px auto 30px auto;
+      font-size: 14px;
+      color: #888;
+      text-align: left;
+      vertical-align: bottom;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    div.headerleft {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
+    div.homelink {
+      float: left;
+      margin-right: 5px;
+    }
+
+    div.header a { 
+      text-decoration: none; 
+    }
+  </style>
+
+  <div class="header">
+    <div class="headerleft">
+      <div class="homelink">
+        <a href="../../index.html">&#x00A7;</a>
+      </div>
+      <div id="searchbox" role="search">
+        <div class="searchformwrapper">
+          <form class="search" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--DISABLE LINKEDIN - REPLACE ICON div>
+      <a href="https://www.linkedin.com/in/ilya-bystrov/">&#x00A9;</a>
+    </div-->
+  </div>
+  <script>$('#searchbox').show(0);</script>
+
+  <!-- created/modified -->
+  <style>
+
+    pre.createdmodified { 
+      background: #fff;
+      padding: 0;
+      font-size: 12px;
+      margin: 0 0 15px 0;
+      font-style: italic;
+    }
+
+  </style>
+
+
+  <!-- footnote -->
+  <style>
+
+    dl dd p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+  </style>
+
+  <!-- headings size -->
+  <style>
+    div.body h1 { font-size: 190%; }
+    div.body h2 { font-size: 160%; }
+    div.body h3 { font-size: 140%; }
+    div.body h4 { font-size: 120%; }
+    div.body h5 { font-size: 100%; }
+    div.body h6 { font-size: 100%; }
+  </style>
+
+  <!-- lists -->
+  <style>
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    ul p, 
+    ol p,
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- basic.css:108 -->
+  <style>
+    .line-block {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <!-- basic.css:604 -->
+  <!--style>
+    ol.simple ol p,
+    ol.simple ul p,
+    ul.simple ol p,
+    ul.simple ul p {
+    margin-top:  revert;
+    } 
+
+    ol.simple > li:not(:first-child) > p,
+    ul.simple > li:not(:first-child) > p {
+    margin-top: revert;
+    }
+    </style-->
+
+    <!-- blockquoutes -->
+    <style>
+    blockquote div p:not(.attribution) {
+      font-style: italic;
+    }
+    </style>
+
+    <!-- font family -->
+    <style>
+body {
+  font-family: Ubuntu, Georgia, serif;
+}
+    </style>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <pre class="createdmodified">
+Created:        2024-05-08 Wed
+Last modified:  2025-04-21 Mon
+</pre><section id="scala-3-collections">
+<h1>Scala 3: Collections<a class="headerlink" href="#scala-3-collections" title="Link to this heading">¶</a></h1>
+<p>Mutable Iterables</p>
+<ul>
+<li><p><sup>trait</sup> <strong>Iterable</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><sup>class</sup> <strong>PriorityQueue</strong>: <em>a heap</em></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Immutable Seqs</p>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>Seq</strong> [List]</p>
+<ul>
+<li><p><sup>trait</sup> <strong>IndexedSeq</strong> [Vector] : <em>indexed sequence that have efficient `apply` and `length`</em></p>
+<ul>
+<li><p><sup>abstr</sup> <strong>ArraySeq</strong> : <em>backed by an array</em></p></li>
+<li><p><sup>class</sup> <strong>NumericRange</strong></p></li>
+<li><p><sup>class</sup> <strong>Range</strong></p></li>
+<li><p><sup>class</sup> <strong>Vector</strong> : <em>radix-balanced finger tree of width 32, efficient general-purpose data structure</em></p></li>
+</ul>
+</li>
+<li><p><sup>trait</sup> <strong>LinearSeq</strong> [List] : <em>linear sequence that have efficient `head` and `tail`</em></p>
+<ul>
+<li><p><sup>abstr</sup> <strong>List</strong> : <em>linked list, structural sharing, more like in Lisp, not Java</em></p></li>
+<li><p><sup>class</sup> <strong>LazyList</strong> : <em>linked list with lazy evaluation</em></p></li>
+<li><p><sup>class</sup> <strong>Queue</strong> : <em>implemented as a pair of `List`s: `in` and `out`</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Mutable Seqs</p>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>Seq</strong> [ArrayBuffer]</p>
+<ul>
+<li><p><sup>class</sup> <strong>ListBuffer</strong> : <em>backed by an immutable list, constant time prepend, append</em></p></li>
+<li><p><sup>trait</sup> <strong>IndexedSeq</strong> [ArrayBuffer] : <em>indexed sequence that have efficient `apply` and `length`</em></p>
+<ul>
+<li><p><sup>abstr</sup> <strong>ArraySeq</strong> : <em>backed by an array, non-growable</em></p></li>
+<li><p><sup>trait</sup> <strong>IndexedBuffer</strong> [ArrayBuffer]</p>
+<ul>
+<li><p><sup>class</sup> <strong>ArrayDeque</strong> : <em>a double-ended queue that internally uses a resizable circular buffer, `prepend` and `append` take constant amortized</em></p>
+<ul>
+<li><p><sup>class</sup> <strong>Queue</strong></p></li>
+<li><p><sup>class</sup> <strong>Stack</strong></p></li>
+</ul>
+</li>
+<li><p><sup>class</sup> <strong>ArrayBuffer</strong> : <em>backed by an array, `append` take constant amortized time</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Immutable Maps</p>
+<ul>
+<li><p><sup>trait</sup> <strong>Map</strong> [HashMap]</p>
+<ul class="simple">
+<li><p><sup>abstr</sup> <strong>IntMap</strong> : <em>a trie based on binary digits</em></p></li>
+<li><p><sup>abstr</sup> <strong>LongMap</strong> : <em>a trie based on binary digits</em></p></li>
+<li><p><sup>class</sup> <strong>HashMap</strong> : <em>Compressed Hash-Array Mapped Prefix-tree</em></p></li>
+</ul>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>SeqMap</strong> [VectorMap] : <em>trait for ordered maps</em></p>
+<ul>
+<li><p><sup>class</sup> <strong>ListMap</strong> : <em>a list-based data structure, first inserted visiting order, inefficient</em></p></li>
+<li><p><sup>class</sup> <strong>TreeSeqMap</strong> : <em>HashMap and a tree (adapted IntMap) for the ordering of the keys by insertion (default) or modification</em></p></li>
+<li><p><sup>class</sup> <strong>VectorMap</strong> : <em>HashMap and Vector which preserves insertion order</em></p></li>
+</ul>
+</li>
+<li><p><sup>trait</sup> <strong>SortedMap</strong> [TreeMap] : <em>key-value pairs are sorted, range queries are supported</em></p>
+<ul>
+<li><p><sup>class</sup> <strong>TreeMap</strong> : <em>RedBlack tree</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Mutable Maps</p>
+<ul>
+<li><p><sup>trait</sup> <strong>Map</strong> [HashMap]</p>
+<ul class="simple">
+<li><p><sup>class</sup> <strong>AnyRefMap</strong> : <em>a hashtable with open addressing, basic map operations are faster than those in HashMap</em></p></li>
+<li><p><sup>class</sup> <strong>CollisionProofHashMap:</strong> <em>a hashtable with red-black trees in the buckets for good worst-case performance on hash collisions</em></p></li>
+<li><p><sup>class</sup> <strong>HashMap</strong> : <em>a hashtable; uses lists sorted by hash, not trees, for buckets</em></p></li>
+<li><p><sup>class</sup> <strong>ListMap:</strong> <em>backed by an immutable list, first inserted visiting order, deprecated, use an immutable.ListMap assigned to a var</em></p></li>
+<li><p><sup>class</sup> <strong>LongMap:</strong> <em>a hashtable with open addressing, basic map operations are faster than those in HashMap</em></p></li>
+<li><p><sup>class</sup> <strong>OpenHashMap:</strong> <em>deprecated, use LongMap, AneRefMap instead</em></p></li>
+</ul>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>SeqMap</strong> [LinkedHashMap] : <em>trait for ordered maps</em></p>
+<ul>
+<li><p><sup>class</sup> <strong>LinkedHashMap:</strong> <em>HashMap implementation and linked list data structure, which preserves insertion order</em></p></li>
+</ul>
+</li>
+<li><p><sup>trait</sup> <strong>SortedMap</strong> [TreeMap] : <em>key-value pairs are sorted, range queries are supported</em></p>
+<ul>
+<li><p><sup>class</sup> <strong>TreeMap</strong> : <em>RedBlack tree</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Immutable Sets</p>
+<ul>
+<li><p><sup>trait</sup> <strong>Set</strong> [HashSet]</p>
+<ul class="simple">
+<li><p><sup>class</sup> <strong>HashSet</strong> : <em>Compressed Hash-Array Mapped Prefix-tree</em></p></li>
+<li><p><sup>class</sup> <strong>ListSet</strong> : <em>a list-based data structure, first inserted visiting order, inefficient</em></p></li>
+</ul>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>SortedSet</strong> [TreeSet]</p>
+<ul>
+<li><p><sup>abstr</sup> <strong>BitSet</strong></p></li>
+<li><p><sup>class</sup> <strong>TreeSet</strong> : <em>RedBlack tree</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Mutable Sets</p>
+<ul>
+<li><p><sup>trait</sup> <strong>Set</strong> [HashSet]</p>
+<ul class="simple">
+<li><p><sup>class</sup> <strong>HashSet</strong> : <em>a hashtable; uses lists sorted by hash, not trees, for bins</em></p></li>
+<li><p><sup>class</sup> <strong>LinkedHashSet</strong> : <em>HashSet implementation and linked list data structure, which preserves insertion order</em></p></li>
+</ul>
+<ul class="simple">
+<li><p><sup>trait</sup> <strong>SortedSet</strong> [TreeSet]</p>
+<ul>
+<li><p><sup>abstr</sup> <strong>BitSet</strong></p></li>
+<li><p><sup>class</sup> <strong>TreeSet</strong> : <em>RedBlack tree</em></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

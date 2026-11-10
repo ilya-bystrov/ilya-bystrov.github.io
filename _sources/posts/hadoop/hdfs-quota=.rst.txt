@@ -1,0 +1,66 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-11-07 Mon 
+   Last modified:  2022-11-17 Thu
+   </pre>
+
+Hadoop: HDFS Quotas
+===================
+
+HDFS quota commands are well explained in this `post <https://www.michael-noll.com/blog/2011/10/20/understanding-hdfs-quotas-and-hadoop-fs-and-fsck-tools/>`_.
+The only drawback is old Hadoop version: ``0.20``.
+
+Here are commands for Haddop ``3.3.4``.
+
+
+* `Get file/dir sizes, quotas <https://hadoop.apache.org/docs/r3.3.4/hadoop-project-dist/hadoop-common/FileSystemShell.html#count>`_
+
+  + ``hdfs dfs -count -q -h -v  <hdfs_path>``
+
+  + ``hdfs dfs -count -q -v <hdfs_path>``
+
+* `Health report (inculding size and replication factor) <https://hadoop.apache.org/docs/r3.3.4/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html#fsck>`_
+
+  * ``hdfs fsck <hdfs_path>``
+
+* `Setting replication factor <https://hadoop.apache.org/docs/r3.3.4/hadoop-project-dist/hadoop-common/FileSystemShell.html#setrep>`_
+
+  + ``hdfs dfs -setrep -w <num_rep> <hdfs_path>``
+
+* `Print requested information (can be useful in scripts) <https://hadoop.apache.org/docs/r3.3.4/hadoop-project-dist/hadoop-common/FileSystemShell.html#stat>`_
+
+  + ``hdfs dfs -stat [format] <hdfs_path>``
+
+  + ``[format]`` (``%y`` is used by default)
+
+    - permissions 
+
+      * octal (``%a``) 
+
+      * symbolic (``%A``)
+
+    - filesize in bytes (``%b``)
+
+    - type (``%F``)
+
+    - group name of owner (``%g``)
+
+    - name (``%n``)
+
+    - block size (``%o``)
+
+    - replication (``%r``)
+
+    - user name of owner(``%u``)
+
+    - access date(``%x``, ``%X``)
+
+    - modification date (``%y``, ``%Y``)
+
+      * ``%x`` and ``%y`` show UTC date as "yyyy-MM-dd HH:mm:ss"
+
+      * ``%X`` and ``%Y`` show milliseconds since January 1, 1970 UTC
+
+
+

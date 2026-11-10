@@ -1,0 +1,25 @@
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-02-28 Mon
+   Last modified:  2022-03-12 Sat
+   </pre>
+
+###########
+Zotero Tips 
+###########
+
+
+* How to save only link
+
+  + Didn't find a way to add Web Page as Item in Zotero
+
+  + But it can be done using Zotero Firefox Add-On
+
+    - Zotero Firefox Add-On -> Right Click -> Save to Zotero -> Save to Zotero (Web Page without Snapshot)
+
+  + Looks like some work is still in progress
+
+    - `Zotero forum <https://forums.zotero.org/discussion/70058/saving-a-link-on-a-page-to-zotero>`_
+
+    - `Issue on GitHub <https://github.com/zotero/zotero-connectors/issues/86>`_

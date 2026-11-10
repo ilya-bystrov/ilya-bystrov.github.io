@@ -1,0 +1,232 @@
+.. vim: set textwidth=100 foldlevel=10:
+
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2024-05-08 Wed 
+   Last modified:  2025-04-21 Mon
+   </pre>
+
+
+####################
+Scala 3: Collections
+####################
+
+
+Mutable Iterables
+
+
+* :sup:`trait` **Iterable**
+
+    +  :sup:`class` **PriorityQueue**: *a heap*
+
+----
+
+Immutable Seqs
+
+
+* :sup:`trait` **Seq** [List]
+
+  * :sup:`trait` **IndexedSeq** [Vector] : *indexed sequence that have efficient `apply` and `length`*
+
+    +  :sup:`abstr` **ArraySeq** : *backed by an array*
+
+    +  :sup:`class` **NumericRange**
+
+    +  :sup:`class` **Range**
+
+    +  :sup:`class` **Vector** : *radix-balanced finger tree of width 32, efficient general-purpose data structure*
+
+  * :sup:`trait` **LinearSeq** [List] : *linear sequence that have efficient `head` and `tail`*
+
+    +  :sup:`abstr` **List** : *linked list, structural sharing, more like in Lisp, not Java*
+
+    +  :sup:`class` **LazyList** : *linked list with lazy evaluation*
+
+    +  :sup:`class` **Queue** : *implemented as a pair of `List`s: `in` and `out`*
+
+----
+
+Mutable Seqs
+
+
+* :sup:`trait` **Seq** [ArrayBuffer]
+
+  * :sup:`class` **ListBuffer** : *backed by an immutable list, constant time prepend, append*
+
+  * :sup:`trait` **IndexedSeq** [ArrayBuffer] : *indexed sequence that have efficient `apply` and `length`*
+
+    + :sup:`abstr` **ArraySeq** : *backed by an array, non-growable*
+
+    + :sup:`trait` **IndexedBuffer** [ArrayBuffer]
+
+      - :sup:`class` **ArrayDeque** : *a double-ended queue that internally uses a resizable circular buffer, `prepend` and `append` take constant amortized*
+
+        * :sup:`class` **Queue**
+
+        * :sup:`class` **Stack**
+
+      - :sup:`class` **ArrayBuffer** : *backed by an array, `append` take constant amortized time*
+
+----
+
+Immutable Maps
+
+
+* :sup:`trait` **Map** [HashMap]
+
+  + :sup:`abstr` **IntMap** : *a trie based on binary digits*
+
+  + :sup:`abstr` **LongMap** : *a trie based on binary digits*
+
+  + :sup:`class` **HashMap** : *Compressed Hash-Array Mapped Prefix-tree*
+
+  * :sup:`trait` **SeqMap** [VectorMap] : *trait for ordered maps*
+
+    + :sup:`class` **ListMap** : *a list-based data structure, first inserted visiting order, inefficient*
+
+    + :sup:`class` **TreeSeqMap** : *HashMap and a tree (adapted IntMap) for the ordering of the keys by insertion (default) or modification*
+
+    + :sup:`class` **VectorMap** : *HashMap and Vector which preserves insertion order*
+
+  * :sup:`trait` **SortedMap** [TreeMap] : *key-value pairs are sorted, range queries are supported*
+
+    +  :sup:`class` **TreeMap** : *RedBlack tree*
+
+----
+
+Mutable Maps
+
+
+* :sup:`trait` **Map** [HashMap]
+
+  + :sup:`class` **AnyRefMap** : *a hashtable with open addressing, basic map operations are faster than those in HashMap*
+
+  + :sup:`class` **CollisionProofHashMap:** *a hashtable with red-black trees in the buckets for good worst-case performance on hash collisions*
+
+  + :sup:`class` **HashMap** : *a hashtable; uses lists sorted by hash, not trees, for buckets*
+
+  + :sup:`class` **ListMap:** *backed by an immutable list, first inserted visiting order, deprecated, use an immutable.ListMap assigned to a var*
+
+  + :sup:`class` **LongMap:** *a hashtable with open addressing, basic map operations are faster than those in HashMap*
+
+  + :sup:`class` **OpenHashMap:** *deprecated, use LongMap, AneRefMap instead*
+
+  * :sup:`trait` **SeqMap** [LinkedHashMap] : *trait for ordered maps*
+
+    + :sup:`class` **LinkedHashMap:** *HashMap implementation and linked list data structure, which preserves insertion order*
+
+  * :sup:`trait` **SortedMap** [TreeMap] : *key-value pairs are sorted, range queries are supported*
+
+    +  :sup:`class` **TreeMap** : *RedBlack tree*
+
+----
+
+Immutable Sets
+
+
++ :sup:`trait` **Set** [HashSet]
+
+  + :sup:`class` **HashSet** : *Compressed Hash-Array Mapped Prefix-tree*
+
+  + :sup:`class` **ListSet** : *a list-based data structure, first inserted visiting order, inefficient*
+
+  * :sup:`trait` **SortedSet** [TreeSet]
+
+    +  :sup:`abstr` **BitSet**
+
+    +  :sup:`class` **TreeSet** : *RedBlack tree*
+
+----
+
+Mutable Sets
+
+
++ :sup:`trait` **Set** [HashSet]
+
+  + :sup:`class` **HashSet** : *a hashtable; uses lists sorted by hash, not trees, for bins*
+
+  + :sup:`class` **LinkedHashSet** : *HashSet implementation and linked list data structure, which preserves insertion order*
+
+  * :sup:`trait` **SortedSet** [TreeSet]
+
+    +  :sup:`abstr` **BitSet**
+
+    +  :sup:`class` **TreeSet** : *RedBlack tree*
+ 
+
+.. 
+   comments
+
+   Collection combinations
+   Collection partition
+   ---
+
+   import scala.language.postfixOps
+
+   ---
+
+   Delegates , ie Deq -> List
+   IndexedSeq -> Vector
+  ----
+
+  ListBuffer - 2 pointers, effective toList
+
+  ----
+
+  scala> Seq()
+  res20: Seq[Nothing] = List()
+
+  scala> IndexedSeq()
+  res21: IndexedSeq[Nothing] = Vector()
+
+
+
+  https://scala-lang.org/api/3.3_LTS/
+
+  Effiicent vs non-efficent
+
+  https://learning.oreilly.com/library/view/scala-for-the/9780138033613/ch13.xhtml#sec13_1
+
+  `Collections Methods | Scala 3 — Book | Scala Documentation <https://docs.scala-lang.org/scala3/book/collections-methods.html>`_
+
+  `Rewrite Vector (now "radix-balanced finger tree vectors"), for performance by szeiger · Pull Request #8534 · scala/scala · GitHub <https://github.com/scala/scala/pull/8534>`_
+
+  `How does scala's array work while its implements are just throwing errors? - Stack Overflow <https://stackoverflow.com/questions/24474894/how-does-scalas-array-work-while-its-implements-are-just-throwing-errors>`_
+
+
+
+  Parallel hierarchies in *scala.collection*, *scala.collection.immutable*, and *scala.collection.mutable*:
+
+
+  * :sup:`trait` Iterable
+
+    + :sup:`trait` Seq 
+
+      - :sup:`trait` IndexedSeq : 
+
+      - :sup:`trait` LinearSeq
+
+      - :sup:`trait` Buffer
+
+    + :sup:`trait` Set
+
+      - :sup:`trait` SortedSet
+
+    + :sup:`trait` Map 
+
+      - :sup:`trait` SeqMap
+
+      - :sup:`trait` SortedMap
+
+
+  `Multiversal Equality <https://docs.scala-lang.org/scala3/reference/contextual/multiversal-equality.html>`_
+
+  `Are scala immutable collections thread-safe? - Stack Overflow <https://stackoverflow.com/questions/41934690/are-scala-immutable-collections-thread-safe>`_
+
+  `Scala immutable List thread safety : r/scala <https://www.reddit.com/r/scala/comments/hcmp9j/scala_immutable_list_thread_safety/>`_
+  `GitHub - sphinx-notes/strike: An extension that adds strikethrough text support to Sphinx <https://github.com/sphinx-notes/strike?tab=readme-ov-file>`_
+
+  `The Architecture of Scala Collections | Scala Documentation <https://docs.scala-lang.org/overviews/core/architecture-of-scala-collections.html>`_
+  `Variance | Scala 3 — Book | Scala Documentation <https://docs.scala-lang.org/scala3/book/types-variance.html>`_
+  `GrowableBuilder <https://www.scala-lang.org/api/3.3_LTS/scala/collection/mutable/GrowableBuilder.html>`_

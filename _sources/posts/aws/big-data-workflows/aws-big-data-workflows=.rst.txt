@@ -1,0 +1,200 @@
+
+.. raw:: html
+  
+   <pre class="createdmodified">
+   Created:        2020-05-25 Mon
+   Last modified:  2022-05-14 Sat
+   </pre>
+  
+#########################
+Big Data Workflows on AWS
+#########################
+
+
+This post is an overview of few articles from AWS blog regarding Big Data Workflows
+
+
+* :ref:`posts/aws/big-data-workflows/aws-big-data-workflows=:Orchestrate big data workflows with Apache Airflow, Genie, and Amazon EMR (Oct 2019)`
+
+* :ref:`posts/aws/big-data-workflows/aws-big-data-workflows=:Build a Concurrent Data Orchestration Pipeline Using Amazon EMR and Apache Livy (Jul 2018)`
+
+* :ref:`posts/aws/big-data-workflows/aws-big-data-workflows=:Orchestrate an ETL process using AWS Step Functions for Amazon Redshift (Jul 2019)`
+
+.. 
+   comm
+
+  + :ref:`posts/aws/big-data-workflows/aws-big-data-workflows==:testx`
+
+Orchestrate big data workflows with Apache Airflow, Genie, and Amazon EMR (Oct 2019)
+====================================================================================
+
+
+* `AWS Blog (Part 1) <https://aws.amazon.com/blogs/big-data/orchestrate-big-data-workflows-with-apache-airflow-genie-and-amazon-emr-part-1>`_
+
+* `AWS Blog (Part 2) <https://aws.amazon.com/blogs/big-data/orchestrate-big-data-workflows-with-apache-airflow-genie-and-amazon-emr-part-2>`_
+
+.. image:: res/LaunchStack.png
+   :target: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=stack_name&templateURL=https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/1-MasterStack.yaml
+
+CloudFormation Stack files:
+
+
+- `1-MasterStack.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/1-MasterStack.yaml>`_
+
+- `2-SetupIAMRolesForAirflowGenieZookeeperAmazonEMRStack.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/2-SetupIAMRolesForAirflowGenieZookeeperAmazonEMRStack.yaml>`_
+
+- `2-SetupVPC.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/2-SetupVPC.yaml>`_
+
+- `3-SetupSecurityGroupsForAirlfowGenieZookeeperRDS.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/3-SetupSecurityGroupsForAirlfowGenieZookeeperRDS.yaml>`_
+
+- `4-SetupBastion.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/4-SetupBastion.yaml>`_
+
+- `4-SetupEFSRDSRedis.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/4-SetupEFSRDSRedis.yaml>`_
+
+- `5-SetupAirflowZKGenie.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/5-SetupAirflowZKGenie.yaml>`_
+
+- `6-SetupAirflowInstanceRole.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/6-SetupAirflowInstanceRole.yaml>`_
+
+- `6-SetupAmazonEMRIAMRoles.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/6-SetupAmazonEMRIAMRoles.yaml>`_
+
+- `6-SetupBastionInstanceRole.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/6-SetupBastionInstanceRole.yaml>`_
+
+- `6-SetupGenieRoles.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/6-SetupGenieRoles.yaml>`_
+
+- `6-SetupZookeeperRoles.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/6-SetupZookeeperRoles.yaml>`_
+
+- `8-SetupEFS.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/8-SetupEFS.yaml>`_
+
+- `8-SetupRDS.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/8-SetupRDS.yaml>`_
+
+- `8-SetupREDIS.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/8-SetupREDIS.yaml>`_
+
+- `9-SetupAmazonEMRCluster.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/9-SetupAmazonEMRCluster.yaml>`_
+
+- `9-SetupApacheAirflow.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/9-SetupApacheAirflow.yaml>`_
+
+- `9-SetupGenie.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/9-SetupGenie.yaml>`_
+
+- `9-SetupZookeeperInstance.yaml <https://aws-bigdata-blog.s3.amazonaws.com/artifacts/aws-blog-airflow-genie-emr/9-SetupZookeeperInstance.yaml>`_
+
+Option 1
+--------
+
+**Apache Airflow + Genie + Amazon EMR and Amazon S3**
+
+.. image:: res/airflow-genie-emr/AirflowGenieEMRPart2_1.png
+
+Cluster 
+
+
+*  always-on clusters
+
+*  transient clusters
+
+Custom Airflow Operators:
+
+
+* *GenieOperator*
+
+* *EMR Airflow Operator* can be used to spin up Amazon EMR clusters that register with 
+  Genie, run a job, and tear them down
+
+Option 2
+--------
+
+Apache Airflow + Apache Livy + Amazon EMR 
+
+Build a Concurrent Data Orchestration Pipeline Using Amazon EMR and Apache Livy (Jul 2018)
+==========================================================================================
+
+
+* `AWS Blog <https://aws.amazon.com/blogs/big-data/build-a-concurrent-data-orchestration-pipeline-using-amazon-emr-and-apache-livy>`__
+
+* `AWS Sample <https://github.com/aws-samples/aws-concurrent-data-orchestration-pipeline-emr-livy>`__
+
+.. image:: res/LaunchStack.png
+   :target: https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=Airflow-Blog&templateURL=https://s3.amazonaws.com/aws-bigdata-blog/artifacts/airflow.livy.emr/airflow.yaml
+
+
+* `CloudFormation Stack file <https://s3.amazonaws.com/aws-bigdata-blog/artifacts/airflow.livy.emr/airflow.yaml>`__
+
+**Apache Airflow + Apache Livy + Amazon EMR**
+
+.. image:: res/airflow-emr-livy/Livy1.png
+
+
+* Apache Livy allow sending code (Scala or Python) over REST API calls
+
+* Spark allows parralel execution, EMR Step API runs jobs serially
+
+* Sample code uses non-reliable cluster termination, probably better to try `EMR auto-termination <https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-longrunning-transient.html>`_
+
+  + `Auto-termination example <https://aws.amazon.com/blogs/big-data/etl-processing-using-aws-data-pipeline-and-amazon-elastic-mapreduce/>`_
+
+
+Orchestrate an ETL process using AWS Step Functions for Amazon Redshift (Jul 2019)
+==================================================================================
+
+
+* `AWS Blog <https://aws.amazon.com/blogs/big-data/orchestrating-an-etl-process-using-aws-step-functions-for-amazon-redshift>`_
+
+.. image:: res/LaunchStack.png
+   :target: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=RedshiftETL&templateURL=https://s3.amazonaws.com/salamander-us-east-1/reinvent2018/ant353/cf_template_ant353.yaml
+
+
+* `CloudFormation Stack file <https://s3.amazonaws.com/salamander-us-east-1/reinvent2018/ant353/cf_template_ant353.yaml>`_
+
+**AWS Step Functions + AWS Lambda + AWS Batch**
+
+.. image:: res/aws-step/D.png
+
+My notes
+--------
+
+
+* Complicated workflow management
+
+Other Useful/Useless Stuff
+==========================
+
+
+* `Memory Management Spark on EMR <https://aws.amazon.com/blogs/big-data/best-practices-for-successfully-managing-memory-for-apache-spark-applications-on-amazon-emr/>`_
+
+* `How Verizon Media Group migrated from on-premises Apache Hadoop and Spark to Amazon EMR (Jan 2020) <https://aws.amazon.com/blogs/big-data/how-verizon-media-group-migrated-from-on-premises-apache-hadoop-and-spark-to-amazon-emr>`_
+
+* `From Zero to EKS with Terraform and Helm <https://aws.amazon.com/blogs/startups/from-zero-to-eks-with-terraform-and-helm>`_
+
+AWS Data Pipeline
+-----------------
+
+
+* `ETL Processing Using AWS Data Pipeline and Amazon Elastic MapReduce (Nov 2014) <https://aws.amazon.com/blogs/big-data/etl-processing-using-aws-data-pipeline-and-amazon-elastic-mapreduce>`_
+
+* `How Coursera Manages Large-Scale ETL using AWS Data Pipeline and Dataduct (Sep 2015) <https://aws.amazon.com/blogs/big-data/how-coursera-manages-large-scale-etl-using-aws-data-pipeline-and-dataduct>`_
+
+AWS Glue
+--------
+
+
+* `Simplify data pipelines with AWS Glue automatic code generation and Workflows (Apr 2020) <https://aws.amazon.com/blogs/big-data/simplify-data-pipelines-with-aws-glue-automatic-code-generation-and-workflows>`_
+
+* `AWS Glue Workflows <https://docs.aws.amazon.com/glue/latest/dg/orchestrate-using-workflows.html>`_
+
+Well-known workflow schedule tools
+----------------------------------
+
+
+* Apache Oozie
+
+* Apache Airflow
+
+* Azkaban
+
+* Cron 
+
+Other
+-----
+
+
+* `Apache Ni-Fi <https://nifi.apache.org/docs.html>`_
+

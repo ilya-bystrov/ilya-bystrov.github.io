@@ -1,0 +1,50 @@
+
+.. raw:: html
+
+   <pre class="createdmodified">
+   Created:        2022-03-27 Sun
+   Last modified:  2024-02-29 Thu
+   </pre>
+
+#######################
+Vim: Learning Resources
+#######################
+
+
+* `The Vim Book <http://ftp.vim.org/pub/vim/doc/book/vimbook-OPL.pdf>`_
+
+* `Vim homepage <https://www.vim.org>`_
+
+  + `Documentation and Tips <https://www.vim.org/docs.php>`_
+
+* `Vim help files <https://vimhelp.org>`_
+
+* `The official Vim repository <https://github.com/vim/vim>`_
+
+* `A byte of Vim <https://vim.swaroopch.com>`_
+
+* Scripting the Vim editor
+
+  + `Part 1: Variables, values, and expressions <https://developer.ibm.com/articles/l-vim-script-1>`_
+
+  + `Part 2: User-defined functions <https://developer.ibm.com/articles/l-vim-script-2>`_
+
+  + `Part 3: Built-in lists <https://developer.ibm.com/articles/l-vim-script-3>`_
+
+  + `Part 4: Dictionaries <https://developer.ibm.com/articles/l-vim-script-4>`_
+
+  + `Part 5: Event-driven scripting and automation <https://developer.ibm.com/articles/l-vim-script-5>`_
+
+* `Learn Vimscript the Hard Way <https://learnvimscriptthehardway.stevelosh.com>`_
+
+* `Learn Vim the Smart Way <https://learnvim.irian.to/>`_ 
+
+.. 
+  comment
+  https://www.ossblog.org/learn-vim-great-free-books/
+  `Vim Cookbook <http://www.oualline.com/vim-cook.html>`_
+
+  " https://vimhelp.org/builtin.txt.html#filter%28%29
+  " https://learnvim.irian.to/vimscript/vimscript-functions
+  " while true; do sleep 1; vim -u NONE --cmd ":source test.vim"; done
+
